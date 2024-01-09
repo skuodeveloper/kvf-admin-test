@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <meta name="wechat-enable-text-zoom-em" content="true">
+    <title>南湖区反诈脱口秀现场观众评委招募</title>
+    <link rel="stylesheet" href="css/weui.css">
+    <script src="js/jquery.min.js"></script>
+
+</head>
+
+<body>
+<div class="page">
+    <div role="alert" class="weui-toptips weui-toptips_warn" id="topTips">错误提示</div>
+    <form action="/func/summerCamp/add" class="weui-form" id="T_FORM">
+        <div class="weui-form__text-area">
+            <h2 class="weui-form__title">报名表</h2>
+            <div class="weui-form__desc">南湖区反诈脱口秀现场观众评委招募</div>
+        </div>
+        <div class="weui-form__control-area">
+            <div class="weui-cells__group weui-cells__group_form">
+                <!-- <div class="weui-cells__title">表单组标题</div> -->
+                <div class="weui-cells">
+                    <label for="name" class="weui-cell weui-cell_active">
+                        <div class="weui-cell__hd"><span class="weui-label">姓名</span></div>
+                        <div class="weui-cell__bd">
+                            <input id="name" name="name" class="weui-input" placeholder="填写姓名"/>
+                        </div>
+                    </label>
+                    <label for="age" class="weui-cell weui-cell_active">
+                        <div class="weui-cell__hd"><span class="weui-label">年龄</span></div>
+                        <div class="weui-cell__bd">
+                            <input id="age" name="age" class="weui-input" placeholder="填写年龄" type="number"/>
+                        </div>
+                    </label>
+                    <label for="tel" class="weui-cell weui-cell_active">
+                        <div class="weui-cell__hd"><span class="weui-label">联系电话</span>
+                            <!-- <div class="weui-cell__desc">副标题</div> -->
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input id="tel" name="tel" class="weui-input" placeholder="填写联系电话" type="number"
+                                   pattern="[0-9]*"/>
+                        </div>
+                    </label>
+                    <div class="weui-cells__group">
+                        <div class="weui-cell">性别</div>
+                        <div class="weui-cells weui-cells_radio">
+                            <label class="weui-cell weui-cell_active weui-check__label">
+                                <div class="weui-cell__bd">
+                                    <p>男</p>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <input type="radio" name="sex" value="male" class="weui-check" checked="checked"/>
+                                    <span class="weui-icon-checked"></span>
+                                </div>
+                            </label>
+                            <label class="weui-cell weui-cell_active weui-check__label">
+                                <div class="weui-cell__bd">
+                                    <p>女</p>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <input type="radio" name="sex" value="female" class="weui-check"/>
+                                    <span class="weui-icon-checked"></span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="weui-cells__group">
+                        <div class="weui-cell">14天内有无前往中高风险地区</div>
+                        <div class="weui-cells weui-cells_radio">
+                            <label class="weui-cell weui-cell_active weui-check__label">
+                                <div class="weui-cell__bd">
+                                    <p>无</p>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <input type="radio" class="weui-check" name="ifout" value="0"
+                                           checked="checked"/>
+                                    <span class="weui-icon-checked"></span>
+                                </div>
+                            </label>
+                            <label class="weui-cell weui-cell_active weui-check__label">
+                                <div class="weui-cell__bd">
+                                    <p>有</p>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <input type="radio" name="ifout" value="1" class="weui-check"/>
+                                    <span class="weui-icon-checked"></span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="weui-form__tips-area">
+            <p class="weui-form__tips">
+                表单页提示，居中对齐
+            </p>
+        </div> -->
+        <div class="weui-form__opr-area">
+            <a role="button" disabled aria-disabled="true" class="weui-btn weui-btn_primary weui-btn_disabled"
+               href="javascript:" id="showTooltips">确定</a>
+        </div>
+        <!-- <div class="weui-form__tips-area">
+            <p class="weui-form__tips">
+                表单页提示，居中对齐
+            </p>
+        </div> -->
+        <div class="weui-form__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+<!--                    <a href="javascript:" class="weui-footer__link">南湖区公安局分局</a>-->
+                </p>
+                <p class="weui-footer__text">Copyright © 2020-2025 alpha.wu</p>
+            </div>
+        </div>
+    </form>
+    <!--BEGIN dialog1-->
+    <div class="js_dialog" role="dialog"  aria-hidden="true" aria-modal="true" aria-labelledby="js_title1" id="iosDialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title" id="js_title1">提示</strong></div>
+            <div id="content" class="weui-dialog__bd">对不起，报名人数已满！</div>
+            <div class="weui-dialog__ft">
+                <a role="button" class="weui-dialog__btn weui-dialog__btn_primary"
+                   href="javascript: WeixinJSBridge.call('closeWindow')" >关闭</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <div role="alert" id="js_toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">报名成功</p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            type: 'get',
+            url: '/func/talkShow/getCount',
+            async: false,
+            success: function (r) {
+                if (r.code === 200) {
+                    if(r.data === 20){
+                        var $iosDialog1 = $('#iosDialog1');
+                        $iosDialog1.fadeIn(200);
+                    }
+                }
+            }
+        })
+
+        var $toast = $('#js_toast');
+        var $input = $('#name');
+        $input.on('input', function () {
+            if ($input.val()) {
+                $('#showTooltips').removeClass('weui-btn_disabled');
+                $('#showTooltips').attr('aria-disabled', 'false');
+                $('#showTooltips').removeAttr('disabled');
+            } else {
+                $('#showTooltips').addClass('weui-btn_disabled');
+                $('#showTooltips').attr('aria-disabled', 'true');
+            }
+        });
+
+        $("input[name=ifout]").click(function (e) {
+            var ifout = $(this).val();
+            if (ifout === '1') {
+                $('#showTooltips').addClass('weui-btn_disabled');
+                $('#showTooltips').attr('aria-disabled', 'true');
+            }else{
+
+                $('#showTooltips').removeClass('weui-btn_disabled');
+                $('#showTooltips').attr('aria-disabled', 'false');
+                $('#showTooltips').removeAttr('disabled');
+            }
+        });
+
+        $('#showTooltips').on('click', function () {
+            if ($(this).hasClass('weui-btn_disabled')) return;
+
+            var name = $('#name').val();
+            if (name === undefined || name === '') {
+                $('#topTips').text("请输入姓名！");
+                $('#topTips').fadeIn(200);
+                setTimeout(function() {
+                    $('#topTips').fadeOut(100);
+                }, 2000);
+                return;
+            }
+
+            var age = $('#age').val();
+            if (age === undefined || age === '') {
+                $('#topTips').text("请输入年龄！");
+                $('#topTips').fadeIn(200);
+                setTimeout(function() {
+                    $('#topTips').fadeOut(100);
+                }, 2000);
+                return;
+            }
+
+            var tel = $('#tel').val();
+            if (tel === undefined || tel === '') {
+                $('#topTips').text("请输入联系电话！");
+                $('#topTips').fadeIn(200)
+                setTimeout(function() {
+                    $('#topTips').fadeOut(100);
+                }, 2000);
+                return;
+            }
+
+            var sex = $("input[name='sex']:checked").val();
+            var ifout = $("input[name='ifout']:checked").val();
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            $.ajax({
+                type: 'post',
+                url: '/func/talkShow/add',
+                data: {
+                    name: name,
+                    age: age,
+                    sex: sex,
+                    tel: tel,
+                    ifout: ifout,
+                    place: $('#place').val(),
+                },
+                async: false,
+                success: function (r) {
+                    if (r.code === 200) {
+                        $toast.fadeIn(100);
+                        setTimeout(function() {
+                            $toast.fadeOut(100);
+                            WeixinJSBridge.call('closeWindow')
+                        }, 2000);
+                    }else{
+                        $('#topTips').text(r.msg);
+                        $('#topTips').fadeIn(200);
+                        setTimeout(function() {
+                            $('#topTips').fadeOut(100);
+                        }, 2000);
+                    }
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

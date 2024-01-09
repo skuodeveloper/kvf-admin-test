@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kalvin.kvf.modules.func.mapper.SummerCampMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kalvin.kvf.modules.func.entity.SummerCamp">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="age" property="age" />
+        <result column="sex" property="sex" />
+        <result column="tel" property="tel" />
+        <result column="ifout" property="ifout" />
+        <result column="place" property="place" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+       id, name, age, sex, tel, ifout, place, create_time
+    </sql>
+
+    <select id="selectSummerCampList" resultType="com.kalvin.kvf.modules.func.entity.SummerCamp">
+        select <include refid="Base_Column_List" /> from func_summer_camp
+        <trim prefix="where" prefixOverrides="and">
+            <if test="summerCamp.name != null and summerCamp.name != ''">
+                and name like concat(#{summerCamp.name}, "%")
+            </if>
+        </trim>
+    </select>
+
+</mapper>

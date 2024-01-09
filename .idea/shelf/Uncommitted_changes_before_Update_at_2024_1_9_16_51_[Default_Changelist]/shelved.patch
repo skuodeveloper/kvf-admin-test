@@ -1,0 +1,1460 @@
+Index: src/main/resources/templates/index.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:th=\"http://www.thymeleaf.org\" xmlns:shiro=\"http://www.pollix.at/thymeleaf/shiro\">\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">\r\n    <title th:replace=\"common/base::pagetitle\"></title>\r\n    <link rel=\"shortcut icon\" th:href=\"@{/static/image/logo/favicon.ico}\" type=\"image/x-icon\"/>\r\n    <link th:replace=\"common/base::static\"/>\r\n    <link rel=\"stylesheet\" th:href=\"@{/static/css/kvf-theme.css}\">\r\n    <style>\r\n        /*由于项目中并未引用layui admin.css这个样式，所以把主页需要用到的一部分样式复制到这里使用*/\r\n        .layui-side-menu .layui-nav .layui-nav-item>a {\r\n            padding-top: 8px;\r\n            padding-bottom: 8px;\r\n        }\r\n        .layui-side-menu .layui-nav .layui-nav-item a {\r\n            height: 40px;\r\n            line-height: 40px;\r\n            padding-left: 45px;\r\n            padding-right: 30px;\r\n        }\r\n        .layui-side-menu .layui-nav .layui-nav-item .layui-icon {\r\n            position: absolute;\r\n            top: 50%;\r\n            left: 20px;\r\n            margin-top: -20px;\r\n        }\r\n        .layui-side-menu .layui-nav .layui-nav-item .fa {\r\n            position: absolute;\r\n            top: 50%;\r\n            left: 20px;\r\n            margin-top: -8px;\r\n        }\r\n        .layadmin-side-shrink .layui-side-menu .layui-nav-item cite {\r\n            display: none;\r\n            padding: 8px 0;\r\n            width: 200px;\r\n        }\r\n        .layui-layout-admin .layui-side {\r\n            width: 220px;\r\n            top: 0;\r\n            z-index: 1001;\r\n        }\r\n        .layui-layout-admin .layui-header {\r\n            position: fixed;\r\n            top: 0;\r\n            left: 0;\r\n            width: 100%;\r\n            height: 50px;\r\n        }\r\n        .layui-layout-admin .layui-logo {\r\n            background-color: #20222A !important;\r\n        }\r\n        .layui-layout-admin .layui-logo {\r\n            background-color: #20222A;\r\n            box-shadow: 0 1px 2px 0 rgba(0,0,0,.15);\r\n        }\r\n        .layui-layout-admin .layui-logo {\r\n            position: fixed;\r\n            left: 0;\r\n            top: 0;\r\n            z-index: 1002;\r\n            width: 220px;\r\n            height: 49px;\r\n            padding: 0 15px;\r\n            box-sizing: border-box;\r\n            overflow: hidden;\r\n            font-weight: 300;\r\n            background-repeat: no-repeat;\r\n            background-position: center center;\r\n        }\r\n        .layui-layout-admin .layui-logo {\r\n            height: 50px;\r\n            line-height: 50px;\r\n        }\r\n        .layui-side-menu .layui-nav {\r\n            width: 220px;\r\n            margin-top: 50px;\r\n            background: 0 0;\r\n        }\r\n        .layui-layout-admin .layui-body {\r\n            position: fixed;\r\n            top: 90px;\r\n            bottom: 0;\r\n        }\r\n        .layui-layout-admin .layadmin-pagetabs, .layui-layout-admin .layui-body, .layui-layout-admin .layui-layout-left {\r\n            left: 220px;\r\n        }\r\n        .layui-layout-admin .layui-layout-left {\r\n            padding: 0 10px;\r\n        }\r\n        .layadmin-side-shrink .layui-layout-admin .layui-logo {\r\n            width: 60px;\r\n            background-image: url(/static/image/logo/K.png);\r\n        }\r\n        .layadmin-side-shrink .layui-layout-admin .layui-logo span {\r\n            display: none;\r\n        }\r\n        .layadmin-side-shrink .layadmin-pagetabs, .layadmin-side-shrink .layui-layout-admin .layui-body, .layadmin-side-shrink .layui-layout-admin .layui-footer, .layadmin-side-shrink .layui-layout-admin .layui-layout-left {\r\n            left: 60px;\r\n        }\r\n\r\n        .layadmin-pagetabs {\r\n            height: 40px;\r\n            line-height: 40px;\r\n            padding: 0 80px 0 40px;\r\n            background-color: #fff;\r\n            box-sizing: border-box;\r\n            box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);\r\n        }\r\n\r\n        .layadmin-pagetabs {\r\n            position: fixed;\r\n            top: 50px;\r\n            right: 0;\r\n            z-index: 999;\r\n        }\r\n        .layadmin-pagetabs .layui-icon-prev {\r\n            left: 0;\r\n            border-left: none;\r\n            border-right: 1px solid #f6f6f6;\r\n        }\r\n        .layadmin-pagetabs .layadmin-tabs-control {\r\n            position: absolute;\r\n            top: 0;\r\n            width: 40px;\r\n            height: 100%;\r\n            text-align: center;\r\n            cursor: pointer;\r\n            transition: all .3s;\r\n            -webkit-transition: all .3s;\r\n            box-sizing: border-box;\r\n            border-left: 1px solid #f6f6f6;\r\n        }\r\n        .layadmin-pagetabs .layui-icon-next {\r\n            right: 5px;\r\n        }\r\n        .layadmin-pagetabs .layui-tab {\r\n            margin: 0;\r\n            overflow: hidden;\r\n        }\r\n        .layadmin-pagetabs .layui-tab-title {\r\n            height: 40px;\r\n            border: none;\r\n        }\r\n        .layadmin-pagetabs .layui-tab-title li:first-child {\r\n            padding-right: 15px;\r\n        }\r\n        .layadmin-pagetabs .layui-tab-title li {\r\n            min-width: 0;\r\n            line-height: 40px;\r\n            max-width: 160px;\r\n            text-overflow: ellipsis;\r\n            padding-right: 40px;\r\n            overflow: hidden;\r\n            border-right: 1px solid #f6f6f6;\r\n            vertical-align: top;\r\n        }\r\n        .layadmin-pagetabs .layui-tab-title li:first-child .layui-tab-close, .layadmin-tabs-select.layui-nav .layui-nav-bar, .layadmin-side-shrink .layui-layout-admin .layui-side > .layui-nav-more {\r\n            display: none;\r\n        }\r\n        .layadmin-pagetabs .layui-tab-title li .layui-tab-close {\r\n            position: absolute;\r\n            right: 8px;\r\n            top: 50%;\r\n            margin: -7px 0 0;\r\n            width: 16px;\r\n            height: 16px;\r\n            line-height: 16px;\r\n            border-radius: 50%;\r\n            font-size: 12px;\r\n        }\r\n\r\n        .layadmin-tabsbody-item, [template] {\r\n            display: none;\r\n        }\r\n        .layui-layout-admin .layui-body .layadmin-tabsbody-item {\r\n            position: absolute;\r\n            top: 0;\r\n            bottom: 0;\r\n            left: 0;\r\n            right: 0;\r\n            overflow: hidden;\r\n        }\r\n        .layadmin-iframe {\r\n            position: absolute;\r\n            width: 100%;\r\n            height: 100%;\r\n            left: 0;\r\n            top: 0;\r\n            right: 0;\r\n            bottom: 0;\r\n        }\r\n\r\n        .layui-nav .layui-nav-item {\r\n            line-height: 48px;\r\n        }\r\n        .layui-tab-title .layui-this {\r\n            color: #000;\r\n            background: #f6f6f6;\r\n        }\r\n        .layui-side-menu .layui-side-scroll, .layui-nav-tree .layui-nav-item > a {\r\n            background: #20222a;\r\n        }\r\n        .layui-nav-tree .layui-nav-item .layui-nav-child > dd {\r\n            background: #16181d;\r\n        }\r\n\r\n        .layui-layout-admin .layui-header {\r\n            border-bottom: 1px solid #f6f6f6;\r\n            box-sizing: border-box;\r\n            background-color: #fff;\r\n        }\r\n        .layui-layout-admin .layui-header .layui-nav-more {\r\n            border-top-color: #333;\r\n            /*border-color: #fff transparent transparent;*/\r\n        }\r\n        .layui-layout-admin .layui-header .layui-nav-mored {\r\n            /*margin-top: -9px;\r\n            border-style: dashed dashed solid;\r\n            border-color: #333 transparent transparent!important;*/\r\n            border-color: transparent transparent #666;\r\n        }\r\n        .layui-layout-admin .layui-header .layui-nav .layui-nav-item a {\r\n            color: #333;\r\n        }\r\n\r\n        @media screen and (max-width: 992px) {\r\n            .layui-layout-admin .layui-side {\r\n                transform: translate3d(-220px,0,0);\r\n                -webkit-transform: translate3d(-220px,0,0);\r\n                width: 220px;\r\n            }\r\n            .layui-body {\r\n                /*transform: translate3d(-60px,0,0);*/\r\n                -webkit-transform: translate3d(0,0,0);\r\n                left: 0!important;\r\n            }\r\n            .layui-layout-admin .layui-layout-left {\r\n                left: 0;\r\n            }\r\n            .layui-layout-admin .layadmin-pagetabs {\r\n                left: 0;\r\n            }\r\n        }\r\n\r\n        .layui-layout-left-mb .layui-layout-admin .layui-side {\r\n            transform: translate3d(0,0,0);\r\n            -webkit-transform: translate3d(0,0,0);\r\n            /*width: 220px;*/\r\n        }\r\n        .layui-layout-left-mb .layui-layout-admin .layui-body {\r\n            transform: translate3d(220px,0,0);\r\n            -webkit-transform: translate3d(220px,0,0);\r\n            /*left: 220px!important;*/\r\n        }\r\n        .layui-layout-left-mb .layui-layout-admin .layui-layout-left {\r\n            transform: translate3d(220px,0,0);\r\n            -webkit-transform: translate3d(220px,0,0);\r\n            /*left: 220px;*/\r\n        }\r\n        .layui-layout-left-mb .layui-layout-admin .layadmin-pagetabs {\r\n            transform: translate3d(220px,0,0);\r\n            -webkit-transform: translate3d(220px,0,0);\r\n            /*left: 220px;*/\r\n        }\r\n        .layui-layout-left-mb .layui-layout-admin .layui-layout-right {\r\n            transform: translate3d(220px,0,0);\r\n            -webkit-transform: translate3d(220px,0,0);\r\n            /*left: 220px;*/\r\n        }\r\n        .layui-layout-left-mb .layui-layout-admin .layadmin-pagetabs .layui-icon-next {\r\n            /*transform: translate3d(220px,0,0);*/\r\n            /*-webkit-transform: translate3d(220px,0,0);*/\r\n            /*left: 220px;*/\r\n        }\r\n\r\n    </style>\r\n</head>\r\n<body class=\"layui-layout-body\">\r\n<div id=\"kAppPage\" class=\"\">\r\n    <div class=\"layui-layout layui-layout-admin\">\r\n        <div class=\"layui-header\">\r\n\r\n            <!-- 头部区域（可配合layui已有的水平导航） -->\r\n            <ul class=\"layui-nav layui-layout-left\" lay-filter=\"kAppHeadNavFilter\" id=\"headNav\">\r\n                <li class=\"layui-nav-item\">\r\n                    <a title=\"侧边伸缩\" id=\"kAppFlexible\" href=\"javascript:;\">\r\n                        <i id=\"kAppLeftNavFlexible\" class=\"layui-icon layui-icon-shrink-right\" aria-hidden=\"true\"></i>\r\n                    </a>\r\n                </li>\r\n                <!--                <li class=\"layui-nav-item\"><a href=\"javascript:;\" data-menu-id=\"0\">控制台</a></li>-->\r\n                <!--                <li class=\"layui-nav-item\"><a href=\"javascript:;\" data-menu-id=\"10\">商品管理</a></li>-->\r\n                <!--<li class=\"layui-nav-item layui-hide-xs\" lay-unselect=\"\">\r\n                    <a href=\"javascript:;\" data-event=\"workbench\" target=\"_blank\" title=\"工作台\">\r\n                        <i class=\"fa fa-cube\"></i>\r\n                    </a>\r\n                </li>\r\n                <li class=\"layui-nav-item\" lay-unselect=\"\">\r\n                    <a href=\"javascript:;\" data-event=\"backstage\" title=\"后台管理\">\r\n                        <i class=\"fa fa-puzzle-piece\"></i>\r\n                    </a>\r\n                </li>-->\r\n                <!--<li class=\"layui-nav-item layui-hide-xs\" lay-unselect=\"\">\r\n                    <input type=\"text\" placeholder=\"搜索...\" autocomplete=\"off\" class=\"layui-input layui-input-search\" data-event=\"serach\" lay-action=\"template/search.html?keywords=\">\r\n                </li>-->\r\n            </ul>\r\n            <ul class=\"layui-nav layui-layout-right\">\r\n                <!--<li class=\"layui-nav-item\" lay-unselect=\"\">\r\n                    <a lay-href=\"app/message/index.html\" data-event=\"message\" lay-text=\"消息中心\">\r\n                        <i class=\"layui-icon layui-icon-notice\"></i>\r\n\r\n                        &lt;!&ndash; 如果有新消息，则显示小圆点 &ndash;&gt;\r\n                        <span class=\"layui-badge-dot\"></span>\r\n                    </a>\r\n                </li>-->\r\n                <li class=\"layui-nav-item layui-hide-xs\" lay-unselect=\"\">\r\n                    <a href=\"https://github.com/kalvinGit/kvf-admin\" target=\"_blank\">\r\n                        <i class=\"layui-icon layui-icon-download-circle\">项目源码</i>\r\n                    </a>\r\n                </li>\r\n                <li class=\"layui-nav-item layui-hide-xs\" lay-unselect=\"\">\r\n                    <a href=\"javascript:;\" data-event=\"theme\">\r\n                        <i class=\"layui-icon layui-icon-theme\"></i>\r\n                    </a>\r\n                </li>\r\n                <li class=\"layui-nav-item layui-hide-xs\" lay-unselect=\"\">\r\n                    <a href=\"javascript:;\" data-event=\"fullscreen\">\r\n                        <i class=\"layui-icon layui-icon-screen-full\"></i>\r\n                    </a>\r\n                </li>\r\n                <li class=\"layui-nav-item\" lay-unselect=\"\">\r\n                    <img th:src=\"@{/} + ${#strings.isEmpty(authUserInfo.avatar)?'static/image/avatar/default.png':'common/static/'+authUserInfo.avatar}\" class=\"kvf-user-head\">\r\n                </li>\r\n                <li class=\"layui-nav-item\" lay-unselect=\"\">\r\n                    <a href=\"javascript:;\">\r\n                        <cite shiro:principal property=\"realname\"></cite>\r\n                        <span class=\"layui-nav-more\"></span>\r\n                    </a>\r\n                    <dl class=\"layui-nav-child\">\r\n                        <dd lay-unselect=\"\"><a data-event=\"userInfo\" data-menu-id=\"userInfo\" data-menu-url=\"sys/user/info\" href=\"javascript:;\"><cite>基本资料</cite></a></dd>\r\n                        <dd lay-unselect=\"\"><a data-event=\"changePwd\" data-menu-id=\"changePwd\" data-menu-url=\"sys/user/password\" href=\"javascript:;\"><cite>修改密码</cite></a></dd>\r\n                    </dl>\r\n                </li>\r\n\r\n                <li class=\"layui-nav-item\" lay-unselect=\"\">\r\n                    <a href=\"javascript:;\" data-event=\"logout\" title=\"退出\">\r\n                        <i class=\"fa fa-power-off\"></i>\r\n                    </a>\r\n                </li>\r\n\r\n                <!--<li class=\"layui-nav-item layui-hide-xs\" lay-unselect=\"\">\r\n                    <a href=\"javascript:;\" data-event=\"about\"><i class=\"layui-icon layui-icon-more-vertical\"></i></a>\r\n                </li>-->\r\n                <li class=\"layui-nav-item layui-show-xs-inline-block layui-hide-sm\" lay-unselect=\"\">\r\n                    <a href=\"javascript:;\" data-event=\"more\"><i class=\"layui-icon layui-icon-more-vertical\"></i></a>\r\n                </li>\r\n            </ul>\r\n        </div>\r\n\r\n        <div class=\"layui-side layui-side-menu layui-bg-black\" id=\"kAppLeftNavBox\">\r\n            <div class=\"layui-side-scroll\" style=\"width: 240px\">\r\n                <div class=\"layui-logo\"><span style=\"color: #ffffff\">kvfAdmin</span></div>\r\n                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->\r\n                <ul class=\"layui-nav layui-nav-tree\" id=\"leftNav\" lay-filter=\"kAppLeftNavFilter\"></ul>\r\n            </div>\r\n        </div>\r\n\r\n        <!-- 页面标签-->\r\n        <div class=\"layadmin-pagetabs\">\r\n            <div class=\"layui-icon layadmin-tabs-control layui-icon-prev\" data-event=\"prev\"></div>\r\n            <div class=\"layui-icon layadmin-tabs-control layui-icon-next\" data-event=\"next\"></div>\r\n            <!--            <div class=\"layui-icon layadmin-tabs-control layui-icon-down\"></div>-->\r\n            <div class=\"layui-tab\" lay-unauto=\"\" lay-allowclose=\"true\" lay-filter=\"kAppLayoutTabFilter\">\r\n                <ul class=\"layui-tab-title\" id=\"kAppTabTitle\">\r\n                    <li lay-id=\"0\" data-iframe-id=\"kAppIframe_0\" class=\"layui-this layui-elip\"><i class=\"layui-icon layui-icon-home\"></i><i class=\"layui-icon layui-unselect layui-tab-close\">ဆ</i></li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"layui-body layui-tab-content\" id=\"kAppBody\">\r\n            <!-- 内容主体区域 -->\r\n            <div class=\"layadmin-tabsbody-item layui-show\">\r\n                <iframe id=\"kAppIframe_0\" th:src=\"@{/home}\" frameborder=\"0\" class=\"layadmin-iframe\"></iframe>\r\n            </div>\r\n        </div>\r\n\r\n        <!--theme滑出层-->\r\n        <div id=\"kAppThemePopup\"></div>\r\n        <div id=\"kAppThemeContent\" class=\"layui-fluid\" style=\"display: none\">\r\n            <div class=\"layui-card-header\">主题配色</div>\r\n            <div class=\"layui-card-body\">\r\n                <ul class=\"kvf-theme-ul\" id=\"kAppThemeUl\">\r\n                    <li class=\"kvf-theme-li\" data-theme=\"kvf-default-theme\">\r\n                        <span class=\"layui-badge-dot layui-bg-black\"></span>\r\n                        <span class=\"layui-badge-dot\" style=\"background: #ffffff\"></span>\r\n                        <span class=\"layui-badge-dot layui-bg-green\"></span>\r\n                    </li>\r\n                    <li class=\"kvf-theme-li\" data-theme=\"kvf-l-bisque-theme\">\r\n                        <span class=\"layui-badge-dot\" style=\"background: #292018\"></span>\r\n                        <span class=\"layui-badge-dot\" style=\"background: #ffffff\"></span>\r\n                        <span class=\"layui-badge-dot\" style=\"background: #94785c\"></span>\r\n                    </li>\r\n                    <li class=\"kvf-theme-li\" data-theme=\"kvf-l-blue-theme\">\r\n                        <span class=\"layui-badge-dot layui-bg-blue\"></span>\r\n                        <span class=\"layui-badge-dot\" style=\"background: #ffffff\"></span>\r\n                        <span class=\"layui-badge-dot layui-bg-blue\"></span>\r\n                    </li>\r\n                    <li class=\"kvf-theme-li\" data-theme=\"kvf-l-red-theme\">\r\n                        <span class=\"layui-badge-dot\"></span>\r\n                        <span class=\"layui-badge-dot\" style=\"background: #ffffff\"></span>\r\n                        <span class=\"layui-badge-dot\"></span>\r\n                    </li>\r\n                    <li class=\"kvf-theme-li\" data-theme=\"kvf-l-orange-theme\">\r\n                        <span class=\"layui-badge-dot layui-bg-orange\"></span>\r\n                        <span class=\"layui-badge-dot\" style=\"background: #ffffff\"></span>\r\n                        <span class=\"layui-badge-dot layui-bg-orange\"></span>\r\n                    </li>\r\n                    <li class=\"kvf-theme-li\" data-theme=\"kvf-green-theme\">\r\n                        <span class=\"layui-badge-dot\" style=\"background: #226A62\"></span>\r\n                        <span class=\"layui-badge-dot\" style=\"background: #2a877b\"></span>\r\n                        <span class=\"layui-badge-dot\" style=\"background: #2a877b\"></span>\r\n                    </li>\r\n                    <li class=\"kvf-theme-li\" data-theme=\"kvf-blue-theme\">\r\n                        <span class=\"layui-badge-dot\" style=\"background: #0085e8\"></span>\r\n                        <span class=\"layui-badge-dot\" style=\"background: #1e9fff\"></span>\r\n                        <span class=\"layui-badge-dot\" style=\"background: #1e9fff\"></span>\r\n                    </li>\r\n                    <li class=\"kvf-theme-li\" data-theme=\"kvf-red-theme\">\r\n                        <span class=\"layui-badge-dot layui-bg-black\"></span>\r\n                        <span class=\"layui-badge-dot\"></span>\r\n                        <span class=\"layui-badge-dot\"></span>\r\n                    </li>\r\n                    <li class=\"kvf-theme-li\" data-theme=\"kvf-black-theme\">\r\n                        <span class=\"layui-badge-dot layui-bg-black\"></span>\r\n                        <span class=\"layui-badge-dot\" style=\"background: #393d49\"></span>\r\n                        <span class=\"layui-badge-dot layui-bg-green\"></span>\r\n                    </li>\r\n                    <li class=\"kvf-theme-li\" data-theme=\"kvf-pink-theme\">\r\n                        <span class=\"layui-badge-dot\" style=\"background: #50314F\"></span>\r\n                        <span class=\"layui-badge-dot\" style=\"background: #50314F\"></span>\r\n                        <span class=\"layui-badge-dot\" style=\"background: #7a4d7b\"></span>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n        </div>\r\n\r\n        <!--<div class=\"layui-footer\">\r\n            &lt;!&ndash; 底部固定区域 &ndash;&gt;\r\n            © layui.com - 底部固定区域\r\n        </div>-->\r\n    </div>\r\n</div>\r\n\r\n\r\n<script th:replace=\"common/base::context\"></script>\r\n<script th:replace=\"common/base::mainjs\"></script>\r\n<script th:include=\"common/sys_tpl::headNavTpl\" type=\"text/html\" id=\"headNavTpl\"></script>\r\n<script th:include=\"common/sys_tpl::leftNavTpl\" type=\"text/html\" id=\"leftNavTpl\"></script>\r\n<script>\r\n    //JavaScript代码区域\r\n    layui.use(['element', 'layer', 'laytpl'], function(){\r\n        var element = layui.element, laytpl = layui.laytpl, layer = layui.layer;\r\n\r\n        var isShow = true;\r\n        var isShowInMobile = false;\r\n        var iframeIdx = $('#kAppTabTitle').find('li').length;\r\n\r\n        renderTheme();\r\n\r\n        // 渲染横向导航菜单栏\r\n        kvfKit.aGet(api.comm.userNavMenus, function (r) {\r\n            laytpl($('#headNavTpl').html()).render(r.data, function (html) {\r\n                var sb = new StringBuilder();\r\n                sb.append('<li class=\"layui-nav-item\" lay-unselect=\"\">');\r\n                sb.append('<a title=\"侧边伸缩\" id=\"kAppFlexible\" href=\"javascript:;\">');\r\n                sb.append('<i id=\"kAppLeftNavFlexible\" class=\"layui-icon layui-icon-shrink-right\" aria-hidden=\"true\"></i>');\r\n                sb.append('</a></li>');\r\n                $('#headNav').html(sb.toString() + html);\r\n                element.render('nav', 'kAppHeadNavFilter');\r\n            });\r\n        });\r\n\r\n        // 渲染左侧导航栏\r\n        kvfKit.aGet(api.comm.userMenus, function (r) {\r\n            laytpl($('#leftNavTpl').html()).render(r.data, function (html) {\r\n                $('#leftNav').html(html);\r\n                element.render('nav', 'kAppLeftNavFilter');\r\n                // 默认展开第一个\r\n                $('#leftNav').find('li:first-child').addClass('layui-nav-itemed');\r\n            });\r\n        });\r\n\r\n        // 监听Tab切换\r\n        element.on('tab(kAppLayoutTabFilter)', function() {\r\n            var layid = this.getAttribute('data-iframe-id');\r\n            $('.layadmin-iframe').parent('.layui-show').removeClass('layui-show');\r\n            $('#' + layid).parent().addClass('layui-show');\r\n        });\r\n\r\n        // 监听左侧 导航菜单事件\r\n        element.on('nav(kAppLeftNavFilter)', function (el) {\r\n            addPage(el);\r\n        });\r\n\r\n        // 监听横向导航菜单事件\r\n        element.on('nav(kAppHeadNavFilter)', function (el) {\r\n            if (el.attr('id') === 'kAppFlexible') {\r\n                fixLeftNav();\r\n            } else {\r\n                addPage(el);\r\n            }\r\n        });\r\n\r\n        // 事件监听\r\n        kvfKit.activeInit({\r\n            serach : function () {\r\n            },\r\n            message : function () {\r\n            },\r\n            userInfo : function () {\r\n                addPage($(this));\r\n            },\r\n            changePwd : function () {\r\n                addPage($(this));\r\n            },\r\n            fullscreen : function () {\r\n                var e = document.documentElement\r\n                    , a = e.requestFullScreen || e.webkitRequestFullScreen || e.mozRequestFullScreen || e.msRequestFullscreen;\r\n                \"undefined\" != typeof a && a && a.call(e);\r\n                $(this).find('i').removeClass('layui-icon-screen-full');\r\n                $(this).find('i').addClass('layui-icon-screen-restore');\r\n                $(this).removeAttr('data-event');\r\n                $(this).attr('data-event', 'exitScreen');\r\n            },\r\n            exitScreen: function() {\r\n                document.documentElement;\r\n                document.exitFullscreen ? document.exitFullscreen() : document.mozCancelFullScreen ? document.mozCancelFullScreen() : document.webkitCancelFullScreen ? document.webkitCancelFullScreen() : document.msExitFullscreen && document.msExitFullscreen();\r\n                $(this).find('i').removeClass('layui-icon-screen-restore');\r\n                $(this).find('i').addClass('layui-icon-screen-full');\r\n                $(this).removeAttr('data-event');\r\n                $(this).attr('data-event', 'fullscreen');\r\n            },\r\n            prev: function () {\r\n                rollPage('left');\r\n            },\r\n            logout: function () {\r\n                layer.confirm('是否退出登录？', {\r\n                    btn: ['是', '否']\r\n                }, function(){\r\n                    kvfKit.aGet('/logout', function (r) {\r\n                        if (r.code === req.status.ok) {\r\n                            parent.window.location.replace(api.login);\r\n                        }\r\n                    })\r\n                }, function(index){\r\n\r\n                });\r\n            },\r\n            next: function () {\r\n                rollPage();\r\n            },\r\n            about: function () {\r\n            },\r\n            more: function () {\r\n            }\r\n        });\r\n\r\n        // 滑出层\r\n        new popup('#kAppThemePopup', 'a[data-event=\"theme\"]', {\r\n            width: '334px',\r\n            height: '170px',\r\n            content: $('#kAppThemeContent'),\r\n            duration: 500\r\n        }).setTop(50).setRight(0).popupTop();\r\n\r\n        var $kAppThemeUlEl = $('#kAppThemeUl');\r\n        $kAppThemeUlEl.find('li').on('click', function () {\r\n            var $kAppPageEl = $('#kAppPage');\r\n            var cl = $kAppPageEl.attr('class');\r\n            var theme = $(this).data('theme');\r\n            $kAppPageEl.removeClass(cl.replace('layadmin-side-shrink', ''));\r\n            $kAppPageEl.addClass(theme);\r\n            $kAppThemeUlEl.find('.kvf-theme-this').removeClass('kvf-theme-this');\r\n            $(this).addClass('kvf-theme-this');\r\n\r\n            // 主题存储在本地\r\n            localStorage.setItem('myTheme', theme);\r\n        });\r\n\r\n        function renderTheme() {\r\n            var localTheme = localStorage.getItem('myTheme');\r\n            $('#kAppPage').addClass(localTheme);\r\n            $('#kAppThemeUl').find('li[data-theme=\"' + localTheme + '\"]').addClass('kvf-theme-this');\r\n        }\r\n\r\n        function pageAdd(menuId, iframeId, name, menuUrl){\r\n            element.tabAdd(\"kAppLayoutTabFilter\", {\r\n                title : name + '<i class=\"layui-icon layui-unselect layui-tab-close\"></i>',\r\n                content : '<div class=\"layadmin-tabsbody-item layui-show\"><iframe id=\"' + iframeId + '\" src=\"' + menuUrl + '\" frameborder=\"0\" class=\"layadmin-iframe\"></iframe></div>',\r\n                id : menuId\r\n            });\r\n        }\r\n\r\n        /**\r\n         * 绑定左侧菜单鼠标经过show tips事件\r\n         */\r\n        function bindingHoverTips() {\r\n            var tipsIdx;\r\n            $('#leftNav').find('a').hover(function () {\r\n                var layTips = $(this).attr('lay-tips');\r\n                tipsIdx = layer.tips(layTips, $(this), {tips: 2});\r\n            }, function () {\r\n                layer.close(tipsIdx);\r\n            });\r\n        }\r\n\r\n        /**\r\n         * 取消左侧菜单鼠标经过show tips事件\r\n         */\r\n        function unbindHoverTips() {\r\n            $('#leftNav').find('a').unbind(\"mouseenter\").unbind(\"mouseleave\");\r\n        }\r\n\r\n        function addPage(el) {\r\n            var iframeId = 'kAppIframe_' + iframeIdx;\r\n            var url = BASE_WEB + el.attr('data-menu-url');\r\n            var menuId = el.attr('data-menu-id');\r\n            var name = el.find('cite').text();\r\n\r\n            if (!menuId) {\r\n                return;\r\n            }\r\n            var $kAppTabTitleEl = $('#kAppTabTitle');\r\n            var $kAppBodyEl = $('#kAppBody');\r\n\r\n            $kAppTabTitleEl.find('.layui-this').removeClass('layui-this');\r\n            $kAppBodyEl.find('.layui-show').removeClass('layui-show');\r\n\r\n            var $ltlEl = $kAppTabTitleEl.find('li[lay-id=\"' + menuId + '\"]');\r\n            if ($ltlEl.length > 0) {\r\n                $ltlEl.addClass('layui-this');\r\n                var fId = $ltlEl.attr('data-iframe-id');\r\n                $('#' + fId).parent().addClass('layui-show');\r\n                return;\r\n            }\r\n\r\n            var tabTitle = new StringBuilder();\r\n            var content = new StringBuilder();\r\n            tabTitle.append('<li lay-id=\"' + menuId + '\" data-iframe-id=\"' + iframeId + '\" class=\"layui-this\">' + name + '</li>');\r\n            content.append('<div class=\"layadmin-tabsbody-item layui-show\">');\r\n            content.append('<iframe id=\"' + iframeId + '\" src=\"' + url + '\" frameborder=\"0\" class=\"layadmin-iframe\"></iframe>');\r\n            content.append('</div>');\r\n\r\n            $kAppTabTitleEl.append(tabTitle.toString());\r\n            $kAppBodyEl.append(content.toString());\r\n\r\n            // 重新渲染 tab\r\n            element.render('tab', 'kAppLayoutTabFilter');\r\n            iframeIdx++;\r\n        }\r\n\r\n        function fixLeftNav() {\r\n            var aEls = $('#leftNav').find('.layui-nav-child').find('a');\r\n            var $layNavTreeEl = $('.layui-nav-tree');\r\n            var $kAppPageEl = $('#kAppPage');\r\n            var $kAppLeftNavFlexEl = $('#kAppLeftNavFlexible');\r\n            var $kAppLeftNavBoxEl = $('#kAppLeftNavBox');\r\n            var $layBodyEl = $('.layui-body');\r\n\r\n            var windowWidth = $(window).width();    // 992\r\n            if (windowWidth > 992) {\r\n                if (isShow) {\r\n                    $kAppPageEl.addClass('layadmin-side-shrink');\r\n                    $kAppLeftNavFlexEl.attr('class', 'layui-icon layui-icon-spread-left');\r\n                    $kAppLeftNavBoxEl.animate({width: '60px'}, 'fast'); //设置宽度\r\n                    $layNavTreeEl.animate({width: '60px'}, 'fast');\r\n                    $layNavTreeEl.find('a').attr('style', 'padding-left: 30px;');\r\n                    $layBodyEl.animate({left: '60px'});\r\n                    $layNavTreeEl.find('.layui-nav-more').hide();\r\n\r\n                    // 左侧二级菜单新增图标\r\n                    for (var i = 0; i < aEls.length; i++) {\r\n                        $(aEls[i]).prepend('<i class=\"layui-icon layui-icon-link\"></i>');\r\n                    }\r\n\r\n                    isShow = false;\r\n                    bindingHoverTips();\r\n                } else {\r\n                    $kAppPageEl.removeClass('layadmin-side-shrink');\r\n                    $kAppLeftNavFlexEl.attr('class', 'layui-icon layui-icon-shrink-right');\r\n                    $kAppLeftNavBoxEl.animate({width: '220px'}, 'fast');\r\n                    $layNavTreeEl.animate({width: '220px'}, 'fast');\r\n                    $layNavTreeEl.find('a').attr('style', '');\r\n                    $layBodyEl.animate({left: '220px'}, 'fast');\r\n                    $layNavTreeEl.find('.layui-nav-more').show();\r\n\r\n                    // 左侧二级菜单移除图标\r\n                    for (var i = 0; i < aEls.length; i++) {\r\n                        $(aEls[i]).find('i').remove();\r\n                    }\r\n\r\n                    isShow = true;\r\n                    unbindHoverTips();\r\n                }\r\n            } else {\r\n                if (isShowInMobile) {\r\n                    $kAppPageEl.removeClass('layui-layout-left-mb');\r\n                    isShowInMobile = false;\r\n                } else {\r\n                    $kAppPageEl.addClass('layui-layout-left-mb');\r\n                    isShowInMobile = true;\r\n                }\r\n            }\r\n        }\r\n\r\n        function rollPage(e, i) {\r\n            var t = $(\"#kAppTabTitle\")\r\n                , n = t.children(\"li\")\r\n                , l = (t.prop(\"scrollWidth\"),\r\n                t.outerWidth())\r\n                , s = parseFloat(t.css(\"left\"));\r\n            if (\"left\" === e) {\r\n                if (!s && s <= 0)\r\n                    return;\r\n                var r = -s - l;\r\n                n.each(function(e, i) {\r\n                    var n = $(i)\r\n                        , l = n.position().left;\r\n                    if (l >= r)\r\n                        return t.css(\"left\", -l),\r\n                            !1\r\n                })\r\n            } else\r\n                \"auto\" === e ? !function() {\r\n                    var e, r = n.eq(i);\r\n                    if (r[0]) {\r\n                        if (e = r.position().left,\r\n                        e < -s)\r\n                            return t.css(\"left\", -e);\r\n                        if (e + r.outerWidth() >= l - s) {\r\n                            var o = e + r.outerWidth() - (l - s);\r\n                            n.each(function(e, i) {\r\n                                var n = $(i)\r\n                                    , l = n.position().left;\r\n                                if (l + s > 0 && l - s > o)\r\n                                    return t.css(\"left\", -l),\r\n                                        !1\r\n                            })\r\n                        }\r\n                    }\r\n                }() : n.each(function(e, i) {\r\n                    var n = $(i)\r\n                        , r = n.position().left;\r\n                    if (r + n.outerWidth() >= l - s)\r\n                        return t.css(\"left\", -r),\r\n                            !1\r\n                })\r\n        }\r\n\r\n    });\r\n\r\n</script>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/templates/index.html b/src/main/resources/templates/index.html
+--- a/src/main/resources/templates/index.html	
++++ b/src/main/resources/templates/index.html	
+@@ -314,11 +314,11 @@
+                         <span class="layui-badge-dot"></span>
+                     </a>
+                 </li>-->
+-                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+-                    <a href="https://github.com/kalvinGit/kvf-admin" target="_blank">
+-                        <i class="layui-icon layui-icon-download-circle">项目源码</i>
+-                    </a>
+-                </li>
++<!--                <li class="layui-nav-item layui-hide-xs" lay-unselect="">-->
++<!--                    <a href="https://github.com/kalvinGit/kvf-admin" target="_blank">-->
++<!--                        <i class="layui-icon layui-icon-download-circle">项目源码</i>-->
++<!--                    </a>-->
++<!--                </li>-->
+                 <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                     <a href="javascript:;" data-event="theme">
+                         <i class="layui-icon layui-icon-theme"></i>
+@@ -360,7 +360,7 @@
+ 
+         <div class="layui-side layui-side-menu layui-bg-black" id="kAppLeftNavBox">
+             <div class="layui-side-scroll" style="width: 240px">
+-                <div class="layui-logo"><span style="color: #ffffff">kvfAdmin</span></div>
++                <div class="layui-logo"><span style="color: #ffffff">红船钉</span></div>
+                 <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                 <ul class="layui-nav layui-nav-tree" id="leftNav" lay-filter="kAppLeftNavFilter"></ul>
+             </div>
+Index: src/main/resources/templates/login.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:th=\"http://www.thymeleaf.org\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">\r\n    <title th:replace=\"common/base::pagetitle\"></title>\r\n    <link rel=\"shortcut icon\" th:href=\"@{/static/image/logo/favicon.ico}\" type=\"image/x-icon\"/>\r\n    <link th:replace=\"common/base::static\"/>\r\n    <style>\r\n        .title {\r\n            font-size: 40px;\r\n            -webkit-text-stroke: 1px #fbfbfb;\r\n            -webkit-text-fill-color: transparent;\r\n        }\r\n        .title2 {\r\n            font-size: 40px;\r\n            background: linear-gradient(to bottom,white,black);\r\n            -webkit-text-fill-color: transparent;\r\n            -webkit-background-clip: text;\r\n        }\r\n\r\n    </style>\r\n</head>\r\n<body style=\"background-color: #afb6c5\">\r\n<div class=\"kvf-user-login\" id=\"kUserLoginBox\">\r\n\r\n    <div class=\"kvf-user-login-main\">\r\n        <div class=\"kvf-user-login-box kvf-user-login-header\">\r\n            <h2 class=\"title\">kvfAdmin</h2>\r\n        </div>\r\n        <div class=\"layui-form kvf-user-login-box\">\r\n            <div class=\"layui-form-item\">\r\n                <label class=\"kvf-user-login-icon layui-icon layui-icon-username\" for=\"kUserLoginUsername\"></label>\r\n                <input type=\"text\" name=\"username\" id=\"kUserLoginUsername\" lay-verify=\"required\" placeholder=\"用户名\" class=\"layui-input\">\r\n            </div>\r\n            <div class=\"layui-form-item\">\r\n                <label class=\"kvf-user-login-icon layui-icon layui-icon-password\" for=\"kUserLoginPassword\"></label>\r\n                <input type=\"password\" name=\"password\" id=\"kUserLoginPassword\" lay-verify=\"required\" placeholder=\"密码\" class=\"layui-input\">\r\n            </div>\r\n            <div class=\"layui-form-item\">\r\n                <div class=\"layui-row\">\r\n                    <div class=\"layui-col-xs7\">\r\n                        <label class=\"kvf-user-login-icon layui-icon layui-icon-vercode\" for=\"kUserLoginVercode\"></label>\r\n                        <input type=\"text\" name=\"vercode\" id=\"kUserLoginVercode\"  placeholder=\"图形验证码\" class=\"layui-input\">\r\n                    </div>\r\n                    <div class=\"layui-col-xs5\">\r\n                        <div style=\"margin-left: 10px;\">\r\n                            <img th:src=\"@{/captcha}\" class=\"kvf-user-login-codeimg\" id=\"kUserGetVerCode\" title=\"点击刷新验证码\">\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"layui-form-item\" style=\"margin-bottom: 20px;\">\r\n                <input type=\"checkbox\" name=\"rememberMe\" lay-skin=\"primary\" title=\"记住密码\">\r\n                <a href=\"forget.html\" class=\"kvf-user-jump-change\" style=\"margin-top: 7px;\">忘记密码？</a>\r\n            </div>\r\n            <div class=\"layui-form-item\">\r\n                <button id=\"submitBtn\" class=\"layui-btn layui-btn-fluid\" lay-submit lay-filter=\"kUserLoginSubmit\">登 录</button>\r\n            </div>\r\n            <!--<div class=\"layui-trans layui-form-item layadmin-user-login-other\">\r\n                <label>社交账号登入</label>\r\n                <a href=\"javascript:;\"><i class=\"layui-icon layui-icon-login-qq\"></i></a>\r\n                <a href=\"javascript:;\"><i class=\"layui-icon layui-icon-login-wechat\"></i></a>\r\n                <a href=\"javascript:;\"><i class=\"layui-icon layui-icon-login-weibo\"></i></a>\r\n\r\n                <a href=\"reg.html\" class=\"layadmin-user-jump-change layadmin-link\">注册帐号</a>\r\n            </div>-->\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"layui-trans kvf-user-login-footer\">\r\n        <p>© 2019 <a href=\"https://tools.kalvinbg.cn\" target=\"_blank\">kvf.com</a></p>\r\n    </div>\r\n\r\n</div>\r\n\r\n<script th:replace=\"common/base::context\"></script>\r\n<script th:replace=\"common/base::mainjs\"></script>\r\n<script>\r\n    layui.use('form', function () {\r\n        var form = layui.form;\r\n\r\n        //提交\r\n        form.on('submit(kUserLoginSubmit)', function(obj) {\r\n            //请求登入接口\r\n            kvfKit.aPost(api.login, obj.field, function (r) {\r\n                if (r.code === req.status.ok) {\r\n                    // todo 请求成功后，写入 access_token\r\n                    /*layui.data(setter.tableName, {\r\n                        key: setter.request.tokenName\r\n                        ,value: res.data.access_token\r\n                    });*/\r\n                    // 登入成功的提示与跳转\r\n                    layer.msg('登录成功', {\r\n                        offset: '15px'\r\n                        ,icon: 1\r\n                        ,time: 500\r\n                    }, function() {\r\n                        // 解决session过期在iframe页面登录后，主页嵌套在iframe里面的问题\r\n                        if (window !== top) {\r\n                            top.location.href = api.homeView;\r\n                        } else {\r\n                            location.href = api.homeView; // kvf-admin首页\r\n                        }\r\n                    });\r\n\r\n                } else {\r\n                    if (r.msg.indexOf('验证码') !== -1) {\r\n                        kvfKit.unhappyMsg(r.msg + '，请重试。', true);\r\n                        refreshVerCode();\r\n                    } else {\r\n                        kvfKit.unhappyMsg(r.msg, true);\r\n                        refreshVerCode();\r\n                    }\r\n                }\r\n            });\r\n        });\r\n\r\n        // 绑定监听回车事件\r\n        kvfKit.bindEnterEventForLayuiForm();\r\n\r\n\r\n        $('#kUserGetVerCode').on('click', function () {\r\n            refreshVerCode();\r\n        });\r\n\r\n        // 刷新图片验证码\r\n        function refreshVerCode() {\r\n            $('#kUserGetVerCode').attr('src', api.captchaUrl + '?t=' + Math.random());\r\n            $('#kUserLoginVercode').val('');\r\n        }\r\n\r\n    })\r\n</script>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/templates/login.html b/src/main/resources/templates/login.html
+--- a/src/main/resources/templates/login.html	
++++ b/src/main/resources/templates/login.html	
+@@ -26,7 +26,7 @@
+ 
+     <div class="kvf-user-login-main">
+         <div class="kvf-user-login-box kvf-user-login-header">
+-            <h2 class="title">kvfAdmin</h2>
++            <h2 class="title">红船钉</h2>
+         </div>
+         <div class="layui-form kvf-user-login-box">
+             <div class="layui-form-item">
+@@ -69,7 +69,7 @@
+     </div>
+ 
+     <div class="layui-trans kvf-user-login-footer">
+-        <p>© 2019 <a href="https://tools.kalvinbg.cn" target="_blank">kvf.com</a></p>
++        <p>©2022 许锋数字魔方实验室</p>
+     </div>
+ 
+ </div>
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n    <parent>\r\n        <groupId>org.springframework.boot</groupId>\r\n        <artifactId>spring-boot-starter-parent</artifactId>\r\n        <version>2.2.4.RELEASE</version>\r\n        <relativePath/> <!-- lookup parent from repository -->\r\n    </parent>\r\n    <groupId>com.kalvin</groupId>\r\n    <artifactId>kvf</artifactId>\r\n    <version>0.0.1-SNAPSHOT</version>\r\n    <name>kvf-admin-ding</name>\r\n    <packaging>jar</packaging>\r\n    <description>Demo project for Spring Boot</description>\r\n\r\n    <properties>\r\n        <java.version>1.8</java.version>\r\n        <spring-boot.version>2.2.4.RELEASE</spring-boot.version>\r\n        <mybatis-plus.version>3.3.0</mybatis-plus.version>\r\n        <dynamic-datasource.version>3.3.1</dynamic-datasource.version>\r\n        <druid.version>1.1.21</druid.version>\r\n        <redis.version>2.2.5.RELEASE</redis.version>\r\n        <shiro.version>1.6.0</shiro.version>\r\n        <hutool.version>4.5.1</hutool.version>\r\n        <docker.image.prefix>kvf</docker.image.prefix>\r\n    </properties>\r\n\r\n    <!--多环境参数配置-->\r\n    <profiles>\r\n        <profile>\r\n            <id>dev</id>\r\n            <properties>\r\n                <activeProfile>dev</activeProfile>\r\n            </properties>\r\n        </profile>\r\n        <profile>\r\n            <id>test</id>\r\n            <properties>\r\n                <activeProfile>test</activeProfile>\r\n            </properties>\r\n            <!-- 设置该环境默认激活 -->\r\n            <activation>\r\n                <activeByDefault>true</activeByDefault>\r\n            </activation>\r\n        </profile>\r\n        <profile>\r\n            <id>prod</id>\r\n            <properties>\r\n                <activeProfile>prod</activeProfile>\r\n            </properties>\r\n        </profile>\r\n    </profiles>\r\n\r\n    <repositories>\r\n        <repository>\r\n            <id>aliyun</id>\r\n            <url>https://maven.aliyun.com/repository/public</url>\r\n            <releases>\r\n                <enabled>true</enabled>\r\n            </releases>\r\n            <snapshots>\r\n                <enabled>false</enabled>\r\n            </snapshots>\r\n        </repository>\r\n        <repository>\r\n            <id>spring-milestones</id>\r\n            <name>Spring Milestones</name>\r\n            <url>https://repo.spring.io/libs-milestone</url>\r\n            <snapshots>\r\n                <enabled>false</enabled>\r\n            </snapshots>\r\n        </repository>\r\n    </repositories>\r\n    <pluginRepositories>\r\n        <pluginRepository>\r\n            <id>aliyun-plugin</id>\r\n            <url>https://maven.aliyun.com/repository/public</url>\r\n            <releases>\r\n                <enabled>true</enabled>\r\n            </releases>\r\n            <snapshots>\r\n                <enabled>false</enabled>\r\n            </snapshots>\r\n        </pluginRepository>\r\n        <pluginRepository>\r\n            <id>repository.spring.release</id>\r\n            <name>Spring GA Repository</name>\r\n            <url>https://repo.spring.io/plugins-release/</url>\r\n        </pluginRepository>\r\n    </pluginRepositories>\r\n\r\n    <dependencies>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-aop</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-thymeleaf</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.github.theborakompanioni</groupId>\r\n            <artifactId>thymeleaf-extras-shiro</artifactId>\r\n            <version>2.0.0</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-web</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-devtools</artifactId>\r\n            <scope>runtime</scope>\r\n        </dependency>\r\n\r\n        <!-- mybatis-plus相关依赖 -->\r\n        <dependency>\r\n            <groupId>com.baomidou</groupId>\r\n            <artifactId>mybatis-plus-boot-starter</artifactId>\r\n            <version>${mybatis-plus.version}</version>\r\n        </dependency>\r\n        <!-- 解决Mybatis.jar和Mybatis-spring的版本不兼容问题 -->\r\n        <!--<dependency>\r\n            <groupId>org.mybatis</groupId>\r\n            <artifactId>mybatis</artifactId>\r\n            <version>3.5.1</version>\r\n        </dependency>-->\r\n        <dependency>\r\n            <groupId>com.baomidou</groupId>\r\n            <artifactId>mybatis-plus-generator</artifactId>\r\n            <version>${mybatis-plus.version}</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.diboot</groupId>\r\n            <artifactId>diboot-core-spring-boot-starter</artifactId>\r\n            <version>2.1.1</version>\r\n            <exclusions>\r\n                <exclusion>\r\n                    <artifactId>mybatis-plus-boot-starter</artifactId>\r\n                    <groupId>com.baomidou</groupId>\r\n                </exclusion>\r\n            </exclusions>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.apache.velocity</groupId>\r\n            <artifactId>velocity-engine-core</artifactId>\r\n            <version>2.1</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>com.baomidou</groupId>\r\n            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>\r\n            <version>${dynamic-datasource.version}</version>\r\n        </dependency>\r\n\r\n        <!--<dependency>\r\n            <groupId>org.mybatis</groupId>\r\n            <artifactId>mybatis-typehandlers-jsr310</artifactId>\r\n            <version>1.0.2</version>\r\n        </dependency>-->\r\n\r\n        <dependency>\r\n            <groupId>com.fasterxml.jackson.datatype</groupId>\r\n            <artifactId>jackson-datatype-jsr310</artifactId>\r\n        </dependency>\r\n\r\n        <!-- 数据库相关依赖-->\r\n        <dependency>\r\n            <groupId>mysql</groupId>\r\n            <artifactId>mysql-connector-java</artifactId>\r\n            <scope>runtime</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.alibaba</groupId>\r\n            <artifactId>druid-spring-boot-starter</artifactId>\r\n            <version>${druid.version}</version>\r\n        </dependency>\r\n\r\n        <!-- redis依赖 -->\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-data-redis</artifactId>\r\n            <version>${redis.version}</version>\r\n        </dependency>\r\n\r\n        <!-- get set -->\r\n        <dependency>\r\n            <groupId>org.projectlombok</groupId>\r\n            <artifactId>lombok</artifactId>\r\n            <optional>true</optional>\r\n        </dependency>\r\n\r\n        <!-- 单元测试 -->\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-test</artifactId>\r\n            <scope>test</scope>\r\n        </dependency>\r\n\r\n        <!-- shiro权限依赖 -->\r\n        <dependency>\r\n            <groupId>org.apache.shiro</groupId>\r\n            <artifactId>shiro-spring</artifactId>\r\n            <version>${shiro.version}</version>\r\n        </dependency>\r\n\r\n        <!--缓存相关依赖-->\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-cache</artifactId>\r\n            <version>${spring-boot.version}</version>\r\n        </dependency>\r\n        <!--<dependency>\r\n            <groupId>net.sf.ehcache</groupId>\r\n            <artifactId>ehcache</artifactId>\r\n            <version>2.10.6</version>\r\n        </dependency>-->\r\n        <!--<dependency>\r\n            <groupId>net.sf.ehcache</groupId>\r\n            <artifactId>ehcache-core</artifactId>\r\n            <version>2.4.8</version>\r\n        </dependency>-->\r\n        <!-- shiro ehcache -->\r\n        <dependency>\r\n            <groupId>org.apache.shiro</groupId>\r\n            <artifactId>shiro-ehcache</artifactId>\r\n            <version>${shiro.version}</version>\r\n        </dependency>\r\n\r\n        <!--工具-->\r\n        <dependency>\r\n            <groupId>cn.hutool</groupId>\r\n            <artifactId>hutool-all</artifactId>\r\n            <version>${hutool.version}</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.github.whvcse</groupId>\r\n            <artifactId>easy-captcha</artifactId>\r\n            <version>1.6.2</version>\r\n        </dependency>\r\n\r\n        <!-- ueditor-->\r\n        <!--<dependency>\r\n            <groupId>com.gitee.qdbp.thirdparty</groupId>\r\n            <artifactId>ueditor</artifactId>\r\n            <version>1.4.3.3</version>\r\n        </dependency>-->\r\n        <!-- 由于本项目修改了ueditor工具包的源码，项目中直接使用，所以加入下面的ueditor依赖的库 -->\r\n        <dependency>\r\n            <groupId>com.alibaba</groupId>\r\n            <artifactId>fastjson</artifactId>\r\n            <version>1.2.47</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>commons-codec</groupId>\r\n            <artifactId>commons-codec</artifactId>\r\n            <version>1.9</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>commons-fileupload</groupId>\r\n            <artifactId>commons-fileupload</artifactId>\r\n            <version>1.3.3</version>\r\n        </dependency>\r\n        <!-- excel -->\r\n        <dependency>\r\n            <groupId>org.apache.poi</groupId>\r\n            <artifactId>poi</artifactId>\r\n            <version>3.17</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.apache.poi</groupId>\r\n            <artifactId>poi-ooxml</artifactId>\r\n            <version>3.17</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>org.apache.commons</groupId>\r\n            <artifactId>commons-lang3</artifactId>\r\n            <version>3.11</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>com.taobao.top</groupId>\r\n            <artifactId>top-api-sdk-dev</artifactId>\r\n            <version>dingtalk-SNAPSHOT</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>com.taobao.top</groupId>\r\n            <artifactId>lippi-oapi-encrpt</artifactId>\r\n            <version>dingtalk-SNAPSHOT</version>\r\n        </dependency>\r\n    </dependencies>\r\n\r\n    <build>\r\n        <finalName>kvf-admin-ding</finalName>\r\n        <plugins>\r\n            <plugin>\r\n                <groupId>org.springframework.boot</groupId>\r\n                <artifactId>spring-boot-maven-plugin</artifactId>\r\n            </plugin>\r\n            <!-- docker构建插件 -->\r\n            <plugin>\r\n                <groupId>com.spotify</groupId>\r\n                <artifactId>docker-maven-plugin</artifactId>\r\n                <version>1.2.0</version>\r\n                <configuration>\r\n                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>\r\n                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>\r\n                    <resources>\r\n                        <resource>\r\n                            <targetPath>/</targetPath>\r\n                            <directory>${project.build.directory}</directory>\r\n                            <include>${project.build.finalName}.jar</include>\r\n                        </resource>\r\n                    </resources>\r\n                </configuration>\r\n            </plugin>\r\n        </plugins>\r\n    </build>\r\n\r\n</project>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	
++++ b/pom.xml	
+@@ -11,7 +11,7 @@
+     <groupId>com.kalvin</groupId>
+     <artifactId>kvf</artifactId>
+     <version>0.0.1-SNAPSHOT</version>
+-    <name>kvf-admin-ding</name>
++    <name>kvf-admin-test</name>
+     <packaging>jar</packaging>
+     <description>Demo project for Spring Boot</description>
+ 
+@@ -20,38 +20,13 @@
+         <spring-boot.version>2.2.4.RELEASE</spring-boot.version>
+         <mybatis-plus.version>3.3.0</mybatis-plus.version>
+         <dynamic-datasource.version>3.3.1</dynamic-datasource.version>
+-        <druid.version>1.1.21</druid.version>
++        <druid.version>1.2.5</druid.version>
+         <redis.version>2.2.5.RELEASE</redis.version>
+         <shiro.version>1.6.0</shiro.version>
++        <quartz.version>2.3.2</quartz.version>
+         <hutool.version>4.5.1</hutool.version>
+         <docker.image.prefix>kvf</docker.image.prefix>
+     </properties>
+-
+-    <!--多环境参数配置-->
+-    <profiles>
+-        <profile>
+-            <id>dev</id>
+-            <properties>
+-                <activeProfile>dev</activeProfile>
+-            </properties>
+-        </profile>
+-        <profile>
+-            <id>test</id>
+-            <properties>
+-                <activeProfile>test</activeProfile>
+-            </properties>
+-            <!-- 设置该环境默认激活 -->
+-            <activation>
+-                <activeByDefault>true</activeByDefault>
+-            </activation>
+-        </profile>
+-        <profile>
+-            <id>prod</id>
+-            <properties>
+-                <activeProfile>prod</activeProfile>
+-            </properties>
+-        </profile>
+-    </profiles>
+ 
+     <repositories>
+         <repository>
+@@ -205,6 +180,13 @@
+             <artifactId>shiro-spring</artifactId>
+             <version>${shiro.version}</version>
+         </dependency>
++
++        <!-- quartz定时任务 -->
++        <dependency>
++            <groupId>org.quartz-scheduler</groupId>
++            <artifactId>quartz</artifactId>
++            <version>${quartz.version}</version>
++        </dependency>
+ 
+         <!--缓存相关依赖-->
+         <dependency>
+@@ -251,7 +233,7 @@
+         <dependency>
+             <groupId>com.alibaba</groupId>
+             <artifactId>fastjson</artifactId>
+-            <version>1.2.47</version>
++            <version>1.2.70</version>
+         </dependency>
+         <dependency>
+             <groupId>commons-codec</groupId>
+@@ -292,10 +274,21 @@
+             <artifactId>lippi-oapi-encrpt</artifactId>
+             <version>dingtalk-SNAPSHOT</version>
+         </dependency>
++
++        <dependency>
++            <groupId>com.squareup.okhttp3</groupId>
++            <artifactId>okhttp</artifactId>
++            <version>3.10.0</version>
++        </dependency>
++        <dependency>
++            <groupId>com.nhga</groupId>
++            <artifactId>xxpt.gateway.shared.client</artifactId>
++            <version>1.0.6</version>
++        </dependency>
+     </dependencies>
+ 
+     <build>
+-        <finalName>kvf-admin-ding</finalName>
++        <finalName>kvf-admin-test</finalName>
+         <plugins>
+             <plugin>
+                 <groupId>org.springframework.boot</groupId>
+Index: src/main/java/com/kalvin/kvf/modules/func/controller/UserInfoController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.modules.func.controller;\r\n\r\nimport com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;\r\nimport com.baomidou.mybatisplus.extension.plugins.pagination.Page;\r\nimport com.diboot.core.util.JSON;\r\nimport com.dingtalk.api.DefaultDingTalkClient;\r\nimport com.dingtalk.api.DingTalkClient;\r\nimport com.dingtalk.api.request.OapiUserGetRequest;\r\nimport com.dingtalk.api.request.OapiUserGetuserinfoRequest;\r\nimport com.dingtalk.api.response.OapiUserGetResponse;\r\nimport com.dingtalk.api.response.OapiUserGetuserinfoResponse;\r\nimport com.kalvin.kvf.common.controller.BaseController;\r\nimport com.kalvin.kvf.common.dto.R;\r\nimport com.kalvin.kvf.modules.config.URLConstant;\r\nimport com.kalvin.kvf.modules.func.entity.UserInfo;\r\nimport com.kalvin.kvf.modules.func.service.UserInfoService;\r\nimport com.kalvin.kvf.modules.util.AccessTokenUtil;\r\nimport org.apache.commons.lang3.StringUtils;\r\nimport org.apache.shiro.authz.annotation.RequiresPermissions;\r\nimport org.springframework.web.bind.annotation.*;\r\nimport org.springframework.web.servlet.ModelAndView;\r\n\r\nimport javax.annotation.Resource;\r\nimport java.util.List;\r\n\r\n\r\n/**\r\n * <p>\r\n * 用户信息表 前端控制器\r\n * </p>\r\n *\r\n * @since 2021-03-11 14:26:11\r\n */\r\n@RestController\r\n@RequestMapping(\"func/userInfo\")\r\npublic class UserInfoController extends BaseController {\r\n\r\n    @Resource\r\n    private UserInfoService userInfoService;\r\n\r\n    @RequiresPermissions(\"func:userInfo:index\")\r\n    @GetMapping(\"index\")\r\n    public ModelAndView index() {\r\n        return new ModelAndView(\"func/userInfo\");\r\n    }\r\n\r\n    @GetMapping(value = \"edit\")\r\n    public ModelAndView edit(Long id) {\r\n        ModelAndView mv = new ModelAndView(\"func/userInfo_edit\");\r\n        UserInfo userInfo;\r\n        if (id == null) {\r\n            userInfo = new UserInfo();\r\n        } else {\r\n            userInfo = userInfoService.getById(id);\r\n        }\r\n        mv.addObject(\"editInfo\", userInfo);\r\n        return mv;\r\n    }\r\n\r\n    @GetMapping(value = \"list/data\")\r\n    public R listData(UserInfo userInfo) {\r\n        Page<UserInfo> page = userInfoService.listUserInfoPage(userInfo);\r\n        return R.ok(page);\r\n    }\r\n\r\n    @GetMapping(value = \"getRank\")\r\n    public R getRank(UserInfo userInfo){\r\n        Page<UserInfo> page = userInfoService.getRank(userInfo);\r\n        return R.ok(page);\r\n    }\r\n\r\n    @RequiresPermissions(\"func:userInfo:add\")\r\n    @PostMapping(value = \"add\")\r\n    public R add(UserInfo userInfo) {\r\n        userInfoService.save(userInfo);\r\n        return R.ok();\r\n    }\r\n\r\n    @RequiresPermissions(\"func:userInfo:del\")\r\n    @PostMapping(value = \"batchdel\")\r\n    public R batchdel(@RequestParam(\"ids\") List<Long> ids) {\r\n        userInfoService.removeByIds(ids);\r\n        return R.ok();\r\n    }\r\n\r\n    @RequiresPermissions(\"func:userInfo:edit\")\r\n    @PostMapping(value = \"edit\")\r\n    public R edit(UserInfo userInfo) {\r\n        userInfoService.updateById(userInfo);\r\n        return R.ok();\r\n    }\r\n\r\n    @RequiresPermissions(\"func:userInfo:del\")\r\n    @PostMapping(value = \"del/{id}\")\r\n    public R del(@PathVariable Long id) {\r\n        userInfoService.removeById(id);\r\n        return R.ok();\r\n    }\r\n\r\n    @GetMapping(value = \"get/{id}\")\r\n    public R get(@PathVariable Long id) {\r\n        return R.ok(userInfoService.getById(id));\r\n    }\r\n\r\n    /**\r\n     * 钉钉用户登录，显示当前登录用户的userId和名称\r\n     *\r\n     * @param requestAuthCode 免登临时code\r\n     */\r\n    @RequestMapping(value = \"/login\", method = RequestMethod.POST)\r\n    @ResponseBody\r\n    public R login(@RequestParam(value = \"authCode\") String requestAuthCode) {\r\n        try {\r\n            //获取accessToken,注意正是代码要有异常流处理\r\n            String accessToken = AccessTokenUtil.getToken();\r\n\r\n            //获取用户信息\r\n            DingTalkClient client1 = new DefaultDingTalkClient(URLConstant.URL_GET_USER_INFO);\r\n            OapiUserGetuserinfoRequest request = new OapiUserGetuserinfoRequest();\r\n            request.setCode(requestAuthCode);\r\n            request.setHttpMethod(\"GET\");\r\n            OapiUserGetuserinfoResponse response = client1.execute(request, accessToken);\r\n\r\n            // 获得到userId之后应用应该处理应用自身的登录会话管理（session）,避免后续的业务交互（前端到应用服务端）每次都要重新获取用户身份，提升用户体验\r\n            String userId = response.getUserid();\r\n\r\n            UserInfo userInfo = userInfoService.getOne(new LambdaQueryWrapper<UserInfo>()\r\n                    .eq(UserInfo::getUserid, userId));\r\n\r\n            if (userInfo == null) {\r\n                //获取用户详情\r\n                DingTalkClient client2 = new DefaultDingTalkClient(URLConstant.URL_USER_GET);\r\n                OapiUserGetRequest oapiUserGetRequest = new OapiUserGetRequest();\r\n                oapiUserGetRequest.setUserid(userId);\r\n                oapiUserGetRequest.setHttpMethod(\"GET\");\r\n                OapiUserGetResponse ugr = client2.execute(oapiUserGetRequest, accessToken);\r\n                if (ugr.getErrcode() == 0) {\r\n                    userInfo = new UserInfo();\r\n                    userInfo.setUserid(ugr.getUserid());\r\n                    userInfo.setRealname(ugr.getName());\r\n                    userInfo.setMobile(ugr.getMobile());\r\n                    userInfo.setUnionid(ugr.getUnionid());\r\n                    userInfo.setOpenid(ugr.getOpenId());\r\n                    userInfo.setAvatar(ugr.getAvatar());\r\n                    userInfo.setDepartment(StringUtils.join(ugr.getDepartment(), \",\"));\r\n\r\n                    userInfoService.save(userInfo);\r\n                }\r\n            }\r\n\r\n            return R.ok(userInfo);\r\n        } catch (Exception ex) {\r\n            return R.fail(ex.getMessage());\r\n        }\r\n    }\r\n\r\n    /**\r\n     * @param userid\r\n     * @param maxLevel\r\n     * @return\r\n     */\r\n    @PostMapping(value = \"submit\")\r\n    public R submit(@RequestParam(value = \"userid\") String userid, @RequestParam(value = \"maxLevel\") Integer maxLevel) {\r\n        try {\r\n            UserInfo userInfo = userInfoService.getOne(new LambdaQueryWrapper<UserInfo>()\r\n                    .eq(UserInfo::getUserid, userid));\r\n\r\n            if(maxLevel > userInfo.getMaxLevel()) {\r\n                userInfo.setMaxLevel(maxLevel);\r\n            }\r\n            userInfo.setTodayCnt(userInfo.getTodayCnt() + 1);\r\n            userInfoService.saveOrUpdate(userInfo);\r\n            return R.ok(userInfo);\r\n        } catch (Exception ex) {\r\n            return R.fail(ex.getMessage());\r\n        }\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/modules/func/controller/UserInfoController.java b/src/main/java/com/kalvin/kvf/modules/func/controller/UserInfoController.java
+--- a/src/main/java/com/kalvin/kvf/modules/func/controller/UserInfoController.java	
++++ b/src/main/java/com/kalvin/kvf/modules/func/controller/UserInfoController.java	
+@@ -1,8 +1,10 @@
+ package com.kalvin.kvf.modules.func.controller;
+ 
++import com.alibaba.fastjson.JSONObject;
+ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
++import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
++import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
+ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+-import com.diboot.core.util.JSON;
+ import com.dingtalk.api.DefaultDingTalkClient;
+ import com.dingtalk.api.DingTalkClient;
+ import com.dingtalk.api.request.OapiUserGetRequest;
+@@ -12,15 +14,24 @@
+ import com.kalvin.kvf.common.controller.BaseController;
+ import com.kalvin.kvf.common.dto.R;
+ import com.kalvin.kvf.modules.config.URLConstant;
++import com.kalvin.kvf.modules.func.entity.InfoTestRecord;
++import com.kalvin.kvf.modules.func.entity.QuestionError;
++import com.kalvin.kvf.modules.func.entity.Record;
+ import com.kalvin.kvf.modules.func.entity.UserInfo;
++import com.kalvin.kvf.modules.func.mapper.InfoTestRecordMapper;
++import com.kalvin.kvf.modules.func.mapper.QuestionErrorMapper;
++import com.kalvin.kvf.modules.func.mapper.RecordMapper;
+ import com.kalvin.kvf.modules.func.service.UserInfoService;
+ import com.kalvin.kvf.modules.util.AccessTokenUtil;
+ import org.apache.commons.lang3.StringUtils;
+ import org.apache.shiro.authz.annotation.RequiresPermissions;
++import org.springframework.transaction.annotation.Transactional;
+ import org.springframework.web.bind.annotation.*;
+ import org.springframework.web.servlet.ModelAndView;
+ 
+ import javax.annotation.Resource;
++import java.util.ArrayList;
++import java.util.Date;
+ import java.util.List;
+ 
+ 
+@@ -38,6 +49,15 @@
+     @Resource
+     private UserInfoService userInfoService;
+ 
++    @Resource
++    private RecordMapper recordMapper;
++
++    @Resource
++    private InfoTestRecordMapper infoTestRecordMapper;
++
++    @Resource
++    private QuestionErrorMapper questionErrorMapper;
++
+     @RequiresPermissions("func:userInfo:index")
+     @GetMapping("index")
+     public ModelAndView index() {
+@@ -64,8 +84,18 @@
+     }
+ 
+     @GetMapping(value = "getRank")
+-    public R getRank(UserInfo userInfo){
+-        Page<UserInfo> page = userInfoService.getRank(userInfo);
++    public R getRank(UserInfo userInfo) {
++        Page<UserInfo> page;
++
++        switch (userInfo.getUnionid()) {
++            case "month":
++                page = userInfoService.getMonthRank(userInfo);
++                break;
++            case "all":
++            default:
++                page = userInfoService.getRank(userInfo);
++                break;
++        }
+         return R.ok(page);
+     }
+ 
+@@ -102,6 +132,15 @@
+         return R.ok(userInfoService.getById(id));
+     }
+ 
++    @RequestMapping(value = "/v1/login")
++    @ResponseBody
++    public R login(@RequestParam(value = "username") String username, @RequestParam(value = "password") String password) {
++        UserInfo userInfo = userInfoService.getOne(new LambdaQueryWrapper<UserInfo>()
++                .eq(UserInfo::getMobile, username));
++
++        return R.ok(userInfo);
++    }
++
+     /**
+      * 钉钉用户登录，显示当前登录用户的userId和名称
+      *
+@@ -123,6 +162,9 @@
+ 
+             // 获得到userId之后应用应该处理应用自身的登录会话管理（session）,避免后续的业务交互（前端到应用服务端）每次都要重新获取用户身份，提升用户体验
+             String userId = response.getUserid();
++            if (userId == null) {
++                return R.fail(response.getErrmsg());
++            }
+ 
+             UserInfo userInfo = userInfoService.getOne(new LambdaQueryWrapper<UserInfo>()
+                     .eq(UserInfo::getUserid, userId));
+@@ -153,27 +195,197 @@
+             return R.fail(ex.getMessage());
+         }
+     }
++
++    /**
++     * 钉钉用户登录，显示当前登录用户的userId和名称
++     *
++     * @param requestAuthCode 免登临时code
++     */
++    @RequestMapping(value = "/auth", method = RequestMethod.POST)
++    @ResponseBody
++    public R auth(@RequestParam(value = "authCode") String requestAuthCode) {
++        try {
++            //获取accessToken,注意正是代码要有异常流处理
++            String accessToken = AccessTokenUtil.getToken();
++
++            //获取用户信息
++            DingTalkClient client = new DefaultDingTalkClient(URLConstant.URL_GET_USER_INFO);
++            OapiUserGetuserinfoRequest request = new OapiUserGetuserinfoRequest();
++            request.setCode(requestAuthCode);
++            request.setHttpMethod("GET");
++            OapiUserGetuserinfoResponse response = client.execute(request, accessToken);
++
++            // 获得到userId之后应用应该处理应用自身的登录会话管理（session）,避免后续的业务交互（前端到应用服务端）每次都要重新获取用户身份，提升用户体验
++            String body = response.getBody();
++            JSONObject JB = JSONObject.parseObject(body);
++
++            String name = JB.getString("name");
++
++            return R.ok(JB);
++        } catch (Exception ex) {
++            return R.fail(ex.getMessage());
++        }
++    }
+ 
+     /**
+      * @param userid
+-     * @param maxLevel
++     * @param qsId
+      * @return
+      */
++    @Transactional
++    @PostMapping(value = "submitError")
++    public R submitError(@RequestParam String userid, @RequestParam Integer qsId) {
++        try {
++            QuestionError Qe = questionErrorMapper.selectOne(new LambdaQueryWrapper<QuestionError>()
++                    .eq(QuestionError::getQsId, qsId)
++                    .eq(QuestionError::getUserid, userid));
++
++            //如果不存在，则插入错误题库
++            if (Qe == null) {
++                QuestionError questionError = new QuestionError();
++                questionError.setUserid(userid);
++                questionError.setQsId(qsId);
++                questionError.setStatus(false);
++                questionError.setCreateTime(new Date());
++                questionErrorMapper.insert(questionError);
++            }else{
++                Qe.setStatus(false);
++                Qe.setUpdateTime(new Date());
++                questionErrorMapper.updateById(Qe);
++            }
++            return R.ok();
++        } catch (Exception ex) {
++            return R.fail(ex.getMessage());
++        }
++    }
++
++    /**
++     * @param userid
++     * @param errors
++     * @param score
++     * @return
++     */
++    @Transactional
+     @PostMapping(value = "submit")
+-    public R submit(@RequestParam(value = "userid") String userid, @RequestParam(value = "maxLevel") Integer maxLevel) {
++    public R submit(@RequestParam String userid, @RequestParam(required = false) List<Integer> corrects, @RequestParam(required = false) List<Integer> errors, @RequestParam Integer score) {
+         try {
+             UserInfo userInfo = userInfoService.getOne(new LambdaQueryWrapper<UserInfo>()
+                     .eq(UserInfo::getUserid, userid));
+ 
+-            if(maxLevel > userInfo.getMaxLevel()) {
+-                userInfo.setMaxLevel(maxLevel);
++            //今日最高得分
++            Integer maxLevelToday = recordMapper.getMaxLevel(userid);
++            if (maxLevelToday == null) {
++                maxLevelToday = 0;
++                //累计得分
++                userInfo.setResScore(userInfo.getResScore() + score);
++            } else {
++                //本次答题比今天最高成绩还要好
++                if (score > maxLevelToday) {
++                    userInfo.setResScore(userInfo.getResScore() - maxLevelToday + score);
++                }
+             }
+-            userInfo.setTodayCnt(userInfo.getTodayCnt() + 1);
++
++            //累计答题次数
++            userInfo.setResCnt(userInfo.getResCnt() + 1);
++            //保存本次答题积分，不是最高积分。
++            userInfo.setMaxLevel(score);
++            //保存今日最高分
++            userInfo.setTodayCnt(Math.max(maxLevelToday, score));
+             userInfoService.saveOrUpdate(userInfo);
++
++            Record record = new Record();
++            record.setUserid(userid);
++            record.setLevel(score);
++            record.setRealname(userInfo.getRealname().replaceAll("　", ""));
++            recordMapper.insert(record);
++
++            if (corrects != null && corrects.size() > 0) {
++                for (Integer qsId : corrects) {
++                    LambdaUpdateWrapper<QuestionError> wrapper = new LambdaUpdateWrapper<QuestionError>()
++                            .eq(QuestionError::getUserid, userid)
++                            .eq(QuestionError::getQsId, qsId)
++                            .set(QuestionError::getStatus, 1);
++
++                    int rows = questionErrorMapper.update(null, wrapper);
++                }
++            }
++
++            //有错题
++            if (errors != null && errors.size() > 0) {
++                List<QuestionError> questionErrors = new ArrayList<>();
++                for (Integer qsId : errors) {
++                    QuestionError Qe = questionErrorMapper.selectOne(new LambdaQueryWrapper<QuestionError>()
++                            .eq(QuestionError::getQsId, qsId)
++                            .eq(QuestionError::getUserid, userid)
++                            .eq(QuestionError::getStatus, false));
++
++                    //如果不存在，则插入错误题库
++                    if (Qe == null) {
++                        QuestionError questionError = new QuestionError();
++                        questionError.setUserid(userid);
++                        questionError.setQsId(qsId);
++                        questionError.setStatus(false);
++                        questionError.setCreateTime(new Date());
++                        questionErrorMapper.insert(questionError);
++                    }
++                }
++            }
+             return R.ok(userInfo);
+         } catch (Exception ex) {
+             return R.fail(ex.getMessage());
+         }
+     }
++
++    /**
++     * @param userid
++     * @param testid
++     * @param score
++     * @return
++     */
++    @Transactional
++    @PostMapping(value = "testSubmit")
++    public R testSubmit(@RequestParam String userid, @RequestParam Integer testid, @RequestParam Integer score) {
++        try {
++            UserInfo userInfo = userInfoService.getOne(new LambdaQueryWrapper<UserInfo>()
++                    .eq(UserInfo::getUserid, userid));
++
++            InfoTestRecord infoTestRecord = new InfoTestRecord();
++            infoTestRecord.setTestId(testid);
++            infoTestRecord.setUserId(userid);
++            infoTestRecord.setUserName(userInfo.getRealname());
++            infoTestRecord.setScore(score * 2);
++
++            infoTestRecordMapper.insert(infoTestRecord);
++            return R.ok();
++        } catch (Exception ex) {
++            return R.fail(ex.getMessage());
++        }
++    }
++
++    /**
++     * @param userid
++     * @param testid
++     * @param score
++     * @return
++     */
++    @Transactional
++    @PostMapping(value = "newSubmit")
++    public R newSubmit(@RequestParam String userid, @RequestParam Integer testid, @RequestParam Integer score) {
++        try {
++            UserInfo userInfo = userInfoService.getOne(new LambdaQueryWrapper<UserInfo>()
++                    .eq(UserInfo::getUserid, userid));
++
++            InfoTestRecord infoTestRecord = new InfoTestRecord();
++            infoTestRecord.setTestId(testid);
++            infoTestRecord.setUserId(userid);
++            infoTestRecord.setUserName(userInfo.getRealname());
++            infoTestRecord.setScore(score);
++
++            infoTestRecordMapper.insert(infoTestRecord);
++            return R.ok();
++        } catch (Exception ex) {
++            return R.fail(ex.getMessage());
++        }
++    }
+ }
+ 
+Index: src/main/java/com/kalvin/kvf/modules/func/mapper/UserInfoMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.modules.func.mapper;\r\n\r\nimport com.baomidou.mybatisplus.core.mapper.BaseMapper;\r\nimport com.baomidou.mybatisplus.core.metadata.IPage;\r\nimport com.kalvin.kvf.modules.func.entity.UserInfo;\r\n\r\nimport java.util.List;\r\n\r\n/**\r\n * <p>\r\n * 用户信息表 Mapper 接口\r\n * </p>\r\n * @since 2021-03-11 14:26:11\r\n */\r\npublic interface UserInfoMapper extends BaseMapper<UserInfo> {\r\n\r\n    /**\r\n     * 查询列表(分页)\r\n     * @param userInfo 查询参数\r\n     * @param page 分页参数\r\n     * @return list\r\n     */\r\n    List<UserInfo> selectUserInfoList(UserInfo userInfo, IPage page);\r\n\r\n    /**\r\n     * 查询列表(分页)\r\n     * @param userInfo 查询参数\r\n     * @param page 分页参数\r\n     * @return list\r\n     */\r\n    List<UserInfo> getRank(UserInfo userInfo, IPage page);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/modules/func/mapper/UserInfoMapper.java b/src/main/java/com/kalvin/kvf/modules/func/mapper/UserInfoMapper.java
+--- a/src/main/java/com/kalvin/kvf/modules/func/mapper/UserInfoMapper.java	
++++ b/src/main/java/com/kalvin/kvf/modules/func/mapper/UserInfoMapper.java	
+@@ -3,6 +3,7 @@
+ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+ import com.baomidou.mybatisplus.core.metadata.IPage;
+ import com.kalvin.kvf.modules.func.entity.UserInfo;
++import org.apache.ibatis.annotations.Select;
+ 
+ import java.util.List;
+ 
+@@ -29,4 +30,27 @@
+      * @return list
+      */
+     List<UserInfo> getRank(UserInfo userInfo, IPage page);
++
++    @Select("SELECT S.realname, S.avatar, S.resCnt, SUM(S.level) resScore\n" +
++            "FROM(\n" +
++            "SELECT\n" +
++            "\t\tA.realname,\n" +
++            "\t\tB.avatar,\n" +
++            "\t\tC.resCnt,\n" +
++            "    DATE(A.create_time) AS date,\n" +
++            "    MAX(A.level) AS level\n" +
++            "FROM\n" +
++            "    func_record A\n" +
++            "LEFT JOIN func_user_info B ON A.userid = B.userid\n" +
++            "LEFT JOIN (\n" +
++            "SELECT userid,COUNT(*) resCnt FROM func_record\n" +
++            "WHERE create_time >= '2022-12-21 00:00:00'" +
++            "GROUP BY userid\n" +
++            ") C ON A.userid = C.userid\n" +
++            "WHERE A.create_time >= '2022-12-21 00:00:00'" +
++            "GROUP BY A.realname, date,B.avatar,C.resCnt\n" +
++            ") S\n" +
++            "GROUP BY S.realname, S.avatar, S.resCnt\n" +
++            "ORDER BY resScore desc , resCnt asc, realname")
++    List<UserInfo> getMonthRank(UserInfo userInfo, IPage page);
+ }
+Index: src/main/java/com/kalvin/kvf/modules/func/controller/QuestionBankController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.modules.func.controller;\r\n\r\nimport com.alibaba.fastjson.JSON;\r\nimport com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;\r\nimport com.baomidou.mybatisplus.extension.plugins.pagination.Page;\r\nimport com.diboot.core.controller.BaseCrudRestController;\r\nimport com.fasterxml.jackson.core.JsonParser;\r\nimport com.fasterxml.jackson.core.type.TypeReference;\r\nimport com.fasterxml.jackson.databind.ObjectMapper;\r\nimport com.kalvin.kvf.common.dto.R;\r\nimport com.kalvin.kvf.common.utils.ShiroKit;\r\nimport com.kalvin.kvf.modules.func.entity.QuestionBank;\r\nimport com.kalvin.kvf.modules.func.service.QuestionBankService;\r\nimport com.kalvin.kvf.modules.func.vo.AnswerDto;\r\nimport org.apache.shiro.authz.annotation.RequiresPermissions;\r\nimport org.springframework.web.bind.annotation.*;\r\nimport org.springframework.web.servlet.ModelAndView;\r\n\r\nimport javax.annotation.Resource;\r\nimport java.io.IOException;\r\nimport java.util.Date;\r\nimport java.util.List;\r\n\r\n/**\r\n * <p>\r\n * 题库 前端控制器\r\n * </p>\r\n *\r\n * @since 2020-07-20 10:24:50\r\n */\r\n@RestController\r\n@RequestMapping(\"func/questionBank\")\r\npublic class QuestionBankController extends BaseCrudRestController {\r\n    @Resource\r\n    private QuestionBankService questionBankService;\r\n\r\n    @RequiresPermissions(\"func:questionBank:index\")\r\n    @GetMapping(\"index\")\r\n    public ModelAndView index() {\r\n        ModelAndView mv = new ModelAndView(\"func/questionBank\");\r\n        return mv;\r\n    }\r\n\r\n    @GetMapping(value = \"edit\")\r\n    public ModelAndView edit(Long id) {\r\n        ModelAndView mv = new ModelAndView(\"func/questionBank_edit\");\r\n        QuestionBank questionBank;\r\n        if (id == null) {\r\n            questionBank = new QuestionBank();\r\n        } else {\r\n            questionBank = questionBankService.getById(id);\r\n\r\n            try {\r\n                ObjectMapper mapper = new ObjectMapper();\r\n                mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);\r\n                List<AnswerDto> answerDtos = mapper.readValue(questionBank.getAnswer(),\r\n                        new TypeReference<List<AnswerDto>>() {\r\n                        });\r\n                questionBank.setAnswerDtos(answerDtos);\r\n            } catch (IOException e) {\r\n                e.printStackTrace();\r\n            }\r\n        }\r\n\r\n        mv.addObject(\"editInfo\", questionBank);\r\n\r\n        return mv;\r\n    }\r\n\r\n    @GetMapping(value = \"list/data\")\r\n    public R listData(QuestionBank questionBank) {\r\n        Long userId = ShiroKit.getUser().getId();\r\n        questionBank.setCreateBy(userId);\r\n\r\n        Page<QuestionBank> page = questionBankService.listQuestionBankPage(questionBank);\r\n\r\n        ObjectMapper mapper = new ObjectMapper();\r\n        mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);\r\n\r\n        for (QuestionBank o : page.getRecords()) {\r\n            try {\r\n                List<AnswerDto> answerDtos = mapper.readValue(o.getAnswer(),\r\n                        new TypeReference<List<AnswerDto>>() {\r\n                        });\r\n                o.setAnswerDtos(answerDtos);\r\n            } catch (IOException ex) {\r\n                ex.printStackTrace();\r\n            }\r\n        }\r\n\r\n        return R.ok(page);\r\n    }\r\n\r\n    @RequiresPermissions(\"func:questionBank:add\")\r\n    @PostMapping(value = \"add\")\r\n    public R add(QuestionBank questionBank) {\r\n        questionBank.setAnswer(questionBank.getAnswer().replaceAll(\"PASSWWORD\", \"\\\"\"));\r\n        questionBank.setCreateBy(ShiroKit.getUser().getId());\r\n        questionBank.setCreateTime(new Date());\r\n        questionBankService.save(questionBank);\r\n        return R.ok();\r\n    }\r\n\r\n    @RequiresPermissions(\"func:questionBank:del\")\r\n    @PostMapping(value = \"batchdel\")\r\n    public R batchdel(@RequestParam(\"ids\") List<Long> ids) {\r\n        questionBankService.removeByIds(ids);\r\n        return R.ok();\r\n    }\r\n\r\n    @RequiresPermissions(\"func:questionBank:edit\")\r\n    @PostMapping(value = \"edit\")\r\n    public R edit(QuestionBank questionBank) {\r\n        questionBank.setAnswer(questionBank.getAnswer().replaceAll(\"PASSWWORD\", \"\\\"\"));\r\n        questionBank.setUpdateBy(ShiroKit.getUser().getId());\r\n        questionBankService.updateById(questionBank);\r\n        return R.ok();\r\n    }\r\n\r\n    @RequiresPermissions(\"func:questionBank:del\")\r\n    @PostMapping(value = \"del/{id}\")\r\n    public R del(@PathVariable Long id) {\r\n        questionBankService.removeById(id);\r\n        return R.ok();\r\n    }\r\n\r\n    @GetMapping(value = \"get/{id}\")\r\n    public R get(@PathVariable Long id) {\r\n        return R.ok(questionBankService.getById(id));\r\n    }\r\n\r\n    @GetMapping(value = \"getRandQuestion\")\r\n    public R getRandQuestion() {\r\n        try {\r\n            List<QuestionBank> questionBanks = questionBankService.list(\r\n                    new QueryWrapper<QuestionBank>()\r\n                            .eq(\"status\", 0)\r\n                            .orderByDesc(\"RAND()\"));\r\n\r\n            for (QuestionBank o : questionBanks) {\r\n                List<AnswerDto> answerDtos = JSON.parseArray(o.getAnswer(), AnswerDto.class);\r\n                o.setAnswerDtos(answerDtos);\r\n            }\r\n\r\n            return R.ok(questionBanks);\r\n        } catch (Exception ex) {\r\n            return R.fail(ex.getMessage());\r\n        }\r\n    }\r\n\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/modules/func/controller/QuestionBankController.java b/src/main/java/com/kalvin/kvf/modules/func/controller/QuestionBankController.java
+--- a/src/main/java/com/kalvin/kvf/modules/func/controller/QuestionBankController.java	
++++ b/src/main/java/com/kalvin/kvf/modules/func/controller/QuestionBankController.java	
+@@ -1,7 +1,9 @@
+ package com.kalvin.kvf.modules.func.controller;
+ 
+ import com.alibaba.fastjson.JSON;
++import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
++import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+ import com.diboot.core.controller.BaseCrudRestController;
+ import com.fasterxml.jackson.core.JsonParser;
+@@ -10,14 +12,19 @@
+ import com.kalvin.kvf.common.dto.R;
+ import com.kalvin.kvf.common.utils.ShiroKit;
+ import com.kalvin.kvf.modules.func.entity.QuestionBank;
++import com.kalvin.kvf.modules.func.entity.QuestionCollect;
++import com.kalvin.kvf.modules.func.mapper.QuestionBankMapper;
++import com.kalvin.kvf.modules.func.mapper.QuestionCollectMapper;
+ import com.kalvin.kvf.modules.func.service.QuestionBankService;
+ import com.kalvin.kvf.modules.func.vo.AnswerDto;
++import com.kalvin.kvf.modules.func.vo.QuestionBankVo;
+ import org.apache.shiro.authz.annotation.RequiresPermissions;
+ import org.springframework.web.bind.annotation.*;
+ import org.springframework.web.servlet.ModelAndView;
+ 
+ import javax.annotation.Resource;
+ import java.io.IOException;
++import java.util.ArrayList;
+ import java.util.Date;
+ import java.util.List;
+ 
+@@ -34,6 +41,12 @@
+     @Resource
+     private QuestionBankService questionBankService;
+ 
++    @Resource
++    QuestionBankMapper questionBankMapper;
++
++    @Resource
++    private QuestionCollectMapper questionCollectMapper;
++
+     @RequiresPermissions("func:questionBank:index")
+     @GetMapping("index")
+     public ModelAndView index() {
+@@ -129,24 +142,146 @@
+         return R.ok(questionBankService.getById(id));
+     }
+ 
++    @GetMapping(value = "getClassify")
++    public R getClassify() {
++        try {
++            return R.ok(questionBankMapper.getClassify());
++        } catch (Exception ex) {
++            return R.fail(ex.getMessage());
++        }
++    }
++
+     @GetMapping(value = "getRandQuestion")
+-    public R getRandQuestion() {
++    public R getRandQuestion(@RequestParam(value = "userid", required = false) String userid) {
++        try {
++            List<QuestionBank> single = questionBankService.list(
++                    new QueryWrapper<QuestionBank>()
++                            .eq("status", 0)
++                            .eq("subject_type", 1)
++                            .last("limit 5")
++                            .orderByDesc("RAND()"));
++
++            List<QuestionBank> multi = questionBankService.list(
++                    new QueryWrapper<QuestionBank>()
++                            .eq("status", 0)
++                            .eq("subject_type", 2)
++                            .last("limit 3")
++                            .orderByDesc("RAND()"));
++
++            List<QuestionBank> judge = questionBankService.list(
++                    new QueryWrapper<QuestionBank>()
++                            .eq("status", 0)
++                            .eq("subject_type", 3)
++                            .last("limit 2")
++                            .orderByDesc("RAND()"));
++
++            List<QuestionBank> questionBanks = new ArrayList<>(single);
++            questionBanks.addAll(multi);
++            questionBanks.addAll(judge);
++
++            for (QuestionBank o : questionBanks) {
++                List<AnswerDto> answerDtos = JSON.parseArray(o.getAnswer(), AnswerDto.class);
++                o.setAnswerDtos(answerDtos);
++
++                StringBuilder correct = new StringBuilder();
++                for (int i = 0; i < answerDtos.size(); i++) {
++                    if (answerDtos.get(i).isValue()) {
++                        correct.append(i);
++                    }
++                }
++
++                String c = correct.toString().replaceAll("0", "A")
++                        .replaceAll("1", "B")
++                        .replaceAll("2", "C")
++                        .replaceAll("3", "D");
++
++                o.setCorrect(c);
++
++                QuestionCollect qc = questionCollectMapper.selectOne(new LambdaQueryWrapper<QuestionCollect>()
++                        .eq(QuestionCollect::getQsId, o.getId())
++                        .eq(QuestionCollect::getUserid, userid)
++                        .eq(QuestionCollect::getStatus, 0));
++
++                o.setSta(qc == null);
++            }
++
++//            List<QuestionBankVo> questionBankVos = super.convertToVoAndBindRelations(questionBanks, QuestionBankVo.class);
++
++            return R.ok(questionBanks);
++        } catch (Exception ex) {
++            return R.fail(ex.getMessage());
++        }
++    }
++
++    @GetMapping(value = "getRandClassifyQuestion")
++    public R getRandClassifyQuestion(@RequestParam String userid, @RequestParam String classify) {
+         try {
++//            List<QuestionBank> single = questionBankService.list(
++//                    new QueryWrapper<QuestionBank>()
++//                            .eq("status", 0)
++//                            .eq("subject_type", 1)
++//                            .eq("classify", classify)
++//                            .last("limit 5")
++//                            .orderByDesc("RAND()"));
++//
++//            List<QuestionBank> multi = questionBankService.list(
++//                    new QueryWrapper<QuestionBank>()
++//                            .eq("status", 0)
++//                            .eq("subject_type", 2)
++//                            .eq("classify", classify)
++//                            .last("limit 3")
++//                            .orderByDesc("RAND()"));
++//
++//            List<QuestionBank> judge = questionBankService.list(
++//                    new QueryWrapper<QuestionBank>()
++//                            .eq("status", 0)
++//                            .eq("subject_type", 3)
++//                            .eq("classify", classify)
++//                            .last("limit 2")
++//                            .orderByDesc("RAND()"));
++//
++//            List<QuestionBank> questionBanks = new ArrayList<>(single);
++//            questionBanks.addAll(multi);
++//            questionBanks.addAll(judge);
++
+             List<QuestionBank> questionBanks = questionBankService.list(
+                     new QueryWrapper<QuestionBank>()
+                             .eq("status", 0)
++                            .eq("classify", classify)
++                            .last("limit 200")
+                             .orderByDesc("RAND()"));
+ 
+             for (QuestionBank o : questionBanks) {
+                 List<AnswerDto> answerDtos = JSON.parseArray(o.getAnswer(), AnswerDto.class);
+                 o.setAnswerDtos(answerDtos);
++
++                StringBuilder correct = new StringBuilder();
++                for (int i = 0; i < answerDtos.size(); i++) {
++                    if (answerDtos.get(i).isValue()) {
++                        correct.append(i);
++                    }
++                }
++
++                String c = correct.toString().replaceAll("0", "A")
++                        .replaceAll("1", "B")
++                        .replaceAll("2", "C")
++                        .replaceAll("3", "D");
++
++                o.setCorrect(c);
++
++                QuestionCollect qc = questionCollectMapper.selectOne(new LambdaQueryWrapper<QuestionCollect>()
++                        .eq(QuestionCollect::getQsId, o.getId())
++                        .eq(QuestionCollect::getUserid, userid)
++                        .eq(QuestionCollect::getStatus, 0));
++
++                o.setSta(qc == null);
+             }
++//            List<QuestionBankVo> questionBankVos = super.convertToVoAndBindRelations(questionBanks, QuestionBankVo.class);
+ 
+             return R.ok(questionBanks);
+         } catch (Exception ex) {
+             return R.fail(ex.getMessage());
+         }
+     }
+-
+ }
+ 
+Index: src/main/java/com/kalvin/kvf/modules/config/Constant.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.modules.config;\r\n\r\n/**\r\n * 项目中的常量定义类\r\n */\r\npublic class Constant {\r\n    /**\r\n     * 开发者后台->企业自建应用->选择您创建的E应用->查看->AppKey\r\n     */\r\n    public static final String APP_KEY = \"ding5nbzw2q1q8hwk1vb\";\r\n\r\n    /**\r\n     * 开发者后台->企业自建应用->选择您创建的E应用->查看->AppSecret\r\n     */\r\n    public static final String APP_SECRET=\"u5XFtmkFEct8naHNPrRCDC809Udv0oHx0KmpBp8d5Af4U_3Hv3ayhB_q8j6cNK4a\";\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/modules/config/Constant.java b/src/main/java/com/kalvin/kvf/modules/config/Constant.java
+--- a/src/main/java/com/kalvin/kvf/modules/config/Constant.java	
++++ b/src/main/java/com/kalvin/kvf/modules/config/Constant.java	
+@@ -7,11 +7,11 @@
+     /**
+      * 开发者后台->企业自建应用->选择您创建的E应用->查看->AppKey
+      */
+-    public static final String APP_KEY = "ding5nbzw2q1q8hwk1vb";
++    public static final String APP_KEY = "dingzbtb1thztpbkrbp2";
+ 
+     /**
+      * 开发者后台->企业自建应用->选择您创建的E应用->查看->AppSecret
+      */
+-    public static final String APP_SECRET="u5XFtmkFEct8naHNPrRCDC809Udv0oHx0KmpBp8d5Af4U_3Hv3ayhB_q8j6cNK4a";
++    public static final String APP_SECRET="ojUB3cUevGLtem7c4g7dO1PI_Pg3PvcrLynCZWXfAbDu_0-toraTEXVt_fq3oN3P";
+ }
+ 
+Index: src/main/resources/logback-spring.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<!--\r\n   说明：\r\n   1、日志级别及文件\r\n       日志记录采用分级记录，级别与日志文件名相对应，不同级别的日志信息记录到不同的日志文件中\r\n       例如：error级别记录到xxx-error-xxx.log（该文件为当前记录的日志文件），而xxx-error-xxx.x.log为归档日志，\r\n       日志文件按日期记录，同一天内，若日志文件大小等于或大于2M，则按0、1、2...顺序分别命名\r\n       例如xxx-error-2013-12-21.0.log\r\n       其它级别的日志也是如此。\r\n   2、文件路径\r\n       若本地开发，以绝对路径指定，如：/Users/zhangboqing/Downloads/logs。\r\n       若部署到服务器，则各个服务器约定一个固定的日志路径如/data/home/logs/【项目名】/\r\n   3、Appender\r\n       FILE-ALL对应所有级别，文件名以xxx-all-xxx.log形式命名\r\n       FILE-ERROR对应error级别，文件名以xxx-error-xxx.log形式命名\r\n       FILE-WARN对应warn级别，文件名以xxx-warn-xxx.log形式命名\r\n       FILE-INFO对应info级别，文件名以xxx-info-xxx.log形式命名\r\n       FILE-DEBUG对应debug级别，文件名以xxx-debug-xxx.log形式命名\r\n       STDOUT将日志信息输出到控制上，为方便开发测试使用\r\n-->\r\n\r\n\r\n<!-- 一、根节点<configuration>，包含下面三个属性-->\r\n<!--1.scan: 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true-->\r\n<!--2.scanPeriod: 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。-->\r\n<!--3.debug: 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。-->\r\n<configuration\r\n        xmlns=\"http://ch.qos.logback/xml/ns/logback\"\r\n        xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n        xsi:schemaLocation=\"http://ch.qos.logback/xml/ns/logback https://raw.githubusercontent.com/enricopulatzo/logback-XSD/master/src/main/xsd/logback.xsd\"\r\n        scan=\"true\">\r\n    <!--注册转换器，颜色转化器-->\r\n    <conversionRule conversionWord=\"clr\" converterClass=\"org.springframework.boot.logging.logback.ColorConverter\"/>\r\n    <conversionRule conversionWord=\"wex\"\r\n                    converterClass=\"org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter\"/>\r\n    <conversionRule conversionWord=\"wEx\"\r\n                    converterClass=\"org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter\"/>\r\n\r\n    <!-- 二、子节点<contextName>：用来设置上下文名称，每个logger都关联到logger上下文，默认上下文名称为default。但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。-->\r\n    <contextName>kvf-admin</contextName>\r\n\r\n    <!-- 三、子节点<property> -->\r\n    <!--子节点<property name=\"\" value=\"\"> ：用来定义变量值，它有两个属性name和value，通过<property>定义的值会被插入到logger上下文中，可以使“${}”来使用变量。-->\r\n    <!--子节点<property resource=\"\"/> ：用来引入外部属性文件，可以使“${}”来使用变量。-->\r\n    <!--<property resource=\"logback.properties\"/>-->\r\n    <property name=\"LOG_FILE_NAME\" value=\"kvf-admin\"/>\r\n    <!-- 日志文件目录（按环境分） -->\r\n    <springProfile name=\"dev\">\r\n        <property name=\"LOG_PATH\" value=\"D://logs\"/>\r\n    </springProfile>\r\n    <springProfile name=\"test\">\r\n        <property name=\"LOG_PATH\" value=\"/tmp/logs/kvf-admin\"/>\r\n    </springProfile>\r\n    <springProfile name=\"prod\">\r\n        <property name=\"LOG_PATH\" value=\"/tmp/logs/kvf-admin\"/>\r\n    </springProfile>\r\n\r\n    <!-- 文件的最大数量 -->\r\n    <property name=\"MAX_HISTORY\" value=\"10\"/>\r\n    <!-- 文件的最大文件大小 -->\r\n    <property name=\"MAX_FILE_SIZE\" value=\"100MB\"/>\r\n    <!-- 日志字符编码 -->\r\n    <property name=\"CHARSET\" value=\"UTF-8\"/>\r\n    <!-- 控制日志是否在控制台打印，默认打印 -->\r\n    <property name=\"IS_OPEN_CONSOLE\" value=\"true\"/>\r\n    <!--日志级别-->\r\n    <property name=\"LEVEL\" value=\"INFO\"/>\r\n\r\n    <!--日志输出格式-->\r\n    <!--控制台-彩色-->\r\n    <property name=\"CONSOLE_LOG_PATTERN\"\r\n              value=\"${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(-){faint} %clr([%15.15t]){faint} %clr([%3L]){blue} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}\"/>\r\n    <!--文件-黑白-->\r\n    <property name=\"FILE_LOG_PATTERN\" value=\"%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n\" />\r\n\r\n    <!-- 四、子节点<appender>：负责写日志的组件，它有两个必要属性name和class。name指定appender名称，class指定appender的全限定名 -->\r\n    <!--4.1 class为ch.qos.logback.core.ConsoleAppender 把日志输出到控制台-->\r\n    <!--4.2 class为ch.qos.logback.core.FileAppender 把日志添加到文件-->\r\n    <!--4.3 class为ch.qos.logback.core.rolling.RollingFileAppender 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件-->\r\n\r\n    <!-- 控制台输出 -->\r\n    <appender name=\"STDOUT\" class=\"ch.qos.logback.core.ConsoleAppender\">\r\n        <encoder>\r\n            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->\r\n            <pattern>${CONSOLE_LOG_PATTERN}</pattern>\r\n        </encoder>\r\n    </appender>\r\n\r\n    <!--日志记录器，日期滚动记录-->\r\n    <!-- 按照每天生成日志文件 -->\r\n    <!-- INFO -->\r\n    <appender name=\"FILE-INFO\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\r\n        <!--日志文件的路径及文件名-->\r\n        <!--被写入的文件名，可以是相对目录，也可以是绝对目录，如果上级目录不存在会自动创建，没有默认值-->\r\n        <file>${LOG_PATH}/${LOG_FILE_NAME}_info.log</file>\r\n        <!-- 如果 true，事件被追加到现存文件尾部。如果 false，清空现存文件.默认为 true -->\r\n        <append>true</append>\r\n        <!--临界值过滤器，过滤掉低于指定临界值的日志。当日志级别等于或高于临界值时，过滤器返回NEUTRAL；当日志级别低于临界值时，日志会被拒绝-->\r\n        <!-- 此日志文件只记录INFO级别的 -->\r\n        <filter class=\"ch.qos.logback.classic.filter.ThresholdFilter\">\r\n            <level>INFO</level>\r\n        </filter>\r\n        <!--当发生滚动时，决定 RollingFileAppender 的行为-->\r\n        <!--日志记录器的滚动策略，按日期，按大小记录,涉及文件移动和重命名-->\r\n        <rollingPolicy class=\"ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy\">\r\n            <!-- 归档的日志文件的路径，例如今天是2018-09-21日志，当前写的日志文件路径为file节点指定，可以将此文件与file指定文件路径设置为不同路径，从而将当前日志文件或归档日志文件置不同的目录。\r\n            而2018-09-21的归档日志文件在由fileNamePattern指定。%d{yyyy-MM-dd}指定日期格式，%i指定索引 -->\r\n            <!--即file和fileNamePattern同时制定，当天日志名由file决定，前一天的文件名将自动改为fileNamePattern的值-->\r\n            <!-- 若要加一层时间目录 <fileNamePattern>${logback.dir}/%d{yyyy-MM-dd,aux}/${logback.info.filename}.%i.log</fileNamePattern>-->\r\n            <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}_info.%d{yyyy-MM-dd}.%i.log</fileNamePattern>\r\n            <!--控制被保留的归档文件的最大数量，超出数量就删除旧文件-->\r\n            <!--日志文件保留天数 -->\r\n            <maxHistory>${MAX_HISTORY}</maxHistory>|\r\n            <!--指定文件的大小-->\r\n            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>\r\n        </rollingPolicy>\r\n        <!--负责两件事，一是把日志信息转换成字节数组，二是把字节数组写入到输出流-->\r\n        <!-- 日志文件的格式 -->\r\n        <encoder class=\"ch.qos.logback.classic.encoder.PatternLayoutEncoder\">\r\n            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->\r\n            <pattern>${FILE_LOG_PATTERN}</pattern>\r\n            <!--日志字符编码格式-->\r\n            <charset>${CHARSET}</charset>\r\n        </encoder>\r\n    </appender>\r\n\r\n    <!-- ALL -->\r\n    <appender name=\"FILE-ALL\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\r\n        <file>${LOG_PATH}/${LOG_FILE_NAME}_all.log</file>\r\n        <append>true</append>\r\n        <rollingPolicy class=\"ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy\">\r\n            <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}_all.%d{yyyy-MM-dd}.%i.log</fileNamePattern>\r\n            <maxHistory>${MAX_HISTORY}</maxHistory>\r\n            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>\r\n        </rollingPolicy>\r\n        <encoder class=\"ch.qos.logback.classic.encoder.PatternLayoutEncoder\">\r\n            <pattern>${FILE_LOG_PATTERN}</pattern>\r\n            <charset>${CHARSET}</charset>\r\n        </encoder>\r\n    </appender>\r\n\r\n\r\n    <!-- ERROR -->\r\n    <appender name=\"FILE-ERROR\" class=\"ch.qos.logback.core.rolling.RollingFileAppender\">\r\n        <file>${LOG_PATH}/${LOG_FILE_NAME}_error.log</file>\r\n        <append>true</append>\r\n        <filter class=\"ch.qos.logback.classic.filter.ThresholdFilter\">\r\n            <level>ERROR</level>\r\n        </filter>\r\n        <rollingPolicy class=\"ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy\">\r\n            <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}_error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>\r\n            <maxHistory>${MAX_HISTORY}</maxHistory>\r\n            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>\r\n        </rollingPolicy>\r\n        <encoder class=\"ch.qos.logback.classic.encoder.PatternLayoutEncoder\">\r\n            <pattern>${FILE_LOG_PATTERN}</pattern>\r\n            <charset>${CHARSET}</charset>\r\n        </encoder>\r\n    </appender>\r\n\r\n\r\n    <!-- 五、子节点<logger>：用来设置某一个包或具体的某一个类的日志打印级别、以及指定<appender>。<loger>仅有一个name属性，一个可选的level和一个可选的addtivity属性。可以包含零个或多个<appender-ref>元素，标识这个appender将会添加到这个loger-->\r\n    <logger name=\"com.kalvin.kvf\" level=\"DEBUG\"/>\r\n    <!-- 六、子节点<root>:它也是<logger>元素，但是它是根logger,是所有<logger>的上级。只有一个level属性，因为name已经被命名为\"root\",且已经是最上级了。-->\r\n\r\n    <!-- 生产环境下，将此级别配置为适合的级别，以免日志文件太多或影响程序性能 -->\r\n    <!--这里改level-->\r\n    <root level=\"${LEVEL}\">\r\n        <appender-ref ref=\"STDOUT\"/>\r\n<!--        <appender-ref ref=\"FILE-ALL\"/>-->\r\n        <appender-ref ref=\"FILE-INFO\"/>\r\n<!--        <appender-ref ref=\"FILE-ERROR\"/>-->\r\n    </root>\r\n\r\n</configuration>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/logback-spring.xml b/src/main/resources/logback-spring.xml
+--- a/src/main/resources/logback-spring.xml	
++++ b/src/main/resources/logback-spring.xml	
+@@ -7,7 +7,7 @@
+        例如：error级别记录到xxx-error-xxx.log（该文件为当前记录的日志文件），而xxx-error-xxx.x.log为归档日志，
+        日志文件按日期记录，同一天内，若日志文件大小等于或大于2M，则按0、1、2...顺序分别命名
+        例如xxx-error-2013-12-21.0.log
+-       其它级别的日志也是如此。
++       其级别的它日志也是如此。
+    2、文件路径
+        若本地开发，以绝对路径指定，如：/Users/zhangboqing/Downloads/logs。
+        若部署到服务器，则各个服务器约定一个固定的日志路径如/data/home/logs/【项目名】/
+@@ -38,22 +38,22 @@
+                     converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+ 
+     <!-- 二、子节点<contextName>：用来设置上下文名称，每个logger都关联到logger上下文，默认上下文名称为default。但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。-->
+-    <contextName>kvf-admin</contextName>
++    <contextName>kvf-admin-ding</contextName>
+ 
+     <!-- 三、子节点<property> -->
+     <!--子节点<property name="" value=""> ：用来定义变量值，它有两个属性name和value，通过<property>定义的值会被插入到logger上下文中，可以使“${}”来使用变量。-->
+     <!--子节点<property resource=""/> ：用来引入外部属性文件，可以使“${}”来使用变量。-->
+     <!--<property resource="logback.properties"/>-->
+-    <property name="LOG_FILE_NAME" value="kvf-admin"/>
++    <property name="LOG_FILE_NAME" value="kvf-admin-ding"/>
+     <!-- 日志文件目录（按环境分） -->
+     <springProfile name="dev">
+-        <property name="LOG_PATH" value="D://logs"/>
++        <property name="LOG_PATH" value="${LOG_PATH:-.}/logs"/>
+     </springProfile>
+     <springProfile name="test">
+-        <property name="LOG_PATH" value="/tmp/logs/kvf-admin"/>
++        <property name="LOG_PATH" value="${LOG_PATH:-.}/logs"/>
+     </springProfile>
+     <springProfile name="prod">
+-        <property name="LOG_PATH" value="/tmp/logs/kvf-admin"/>
++        <property name="LOG_PATH" value="${LOG_PATH:-.}/logs"/>
+     </springProfile>
+ 
+     <!-- 文件的最大数量 -->
+@@ -168,9 +168,9 @@
+     <!--这里改level-->
+     <root level="${LEVEL}">
+         <appender-ref ref="STDOUT"/>
+-<!--        <appender-ref ref="FILE-ALL"/>-->
++        <appender-ref ref="FILE-ALL"/>
+         <appender-ref ref="FILE-INFO"/>
+-<!--        <appender-ref ref="FILE-ERROR"/>-->
++        <appender-ref ref="FILE-ERROR"/>
+     </root>
+ 
+ </configuration>
+\ No newline at end of file
+Index: src/main/java/com/kalvin/kvf/common/shiro/ShiroConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.common.shiro;\r\n\r\nimport at.pollux.thymeleaf.shiro.dialect.ShiroDialect;\r\nimport cn.hutool.core.codec.Base64;\r\nimport com.kalvin.kvf.common.utils.ShiroKit;\r\nimport org.apache.shiro.cache.ehcache.EhCacheManager;\r\nimport org.apache.shiro.mgt.SecurityManager;\r\nimport org.apache.shiro.session.mgt.SessionManager;\r\nimport org.apache.shiro.spring.LifecycleBeanPostProcessor;\r\nimport org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;\r\nimport org.apache.shiro.spring.web.ShiroFilterFactoryBean;\r\nimport org.apache.shiro.web.mgt.CookieRememberMeManager;\r\nimport org.apache.shiro.web.mgt.DefaultWebSecurityManager;\r\nimport org.apache.shiro.web.servlet.SimpleCookie;\r\nimport org.apache.shiro.web.session.mgt.DefaultWebSessionManager;\r\nimport org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;\r\nimport org.springframework.context.annotation.Bean;\r\nimport org.springframework.context.annotation.Configuration;\r\n\r\nimport javax.servlet.Filter;\r\nimport java.util.LinkedHashMap;\r\nimport java.util.Map;\r\n\r\n\r\n/**\r\n * 作用：Shiro配置<br>\r\n * 说明：(无)\r\n *\r\n * @author Kalvin\r\n * @Date 2019年05月05日 11:29\r\n */\r\n@Configuration\r\npublic class ShiroConfig {\r\n\r\n    /**\r\n     * 集成缓存\r\n     * @return sessionManager\r\n     */\r\n    @Bean(\"sessionManager\")\r\n    public SessionManager sessionManager() {\r\n        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();\r\n        //设置session过期时间(单位：毫秒)，默认为15分钟\r\n        sessionManager.setGlobalSessionTimeout(1000 * 60 * 15);\r\n        sessionManager.setSessionValidationSchedulerEnabled(true);\r\n        sessionManager.setSessionIdUrlRewritingEnabled(false);\r\n\r\n        return sessionManager;\r\n    }\r\n\r\n    @Bean(\"securityManager\")\r\n    public SecurityManager securityManager(UserRealm userRealm, SessionManager sessionManager) {\r\n        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();\r\n        securityManager.setRealm(userRealm);\r\n        // 自定义缓存实现\r\n        securityManager.setCacheManager(ehCacheManager());\r\n        securityManager.setSessionManager(sessionManager);\r\n\r\n        // 设置cookie管理\r\n        securityManager.setRememberMeManager(rememberMeManager());\r\n\r\n        return securityManager;\r\n    }\r\n\r\n    /**\r\n     * shiro缓存管理器。需要添加到securityManager中\r\n     * @return cacheManager\r\n     */\r\n    @Bean\r\n    public EhCacheManager ehCacheManager(){\r\n        EhCacheManager cacheManager = new EhCacheManager();\r\n        cacheManager.setCacheManagerConfigFile(\"classpath:ehcache.xml\");\r\n        return cacheManager;\r\n    }\r\n\r\n    /**\r\n     * Cookie对象\r\n     * @return simpleCookie\r\n     */\r\n    private SimpleCookie rememberMeCookie() {\r\n        SimpleCookie simpleCookie = new SimpleCookie(\"rememberMe\");\r\n        // 记住时间，单位秒，默认15天\r\n        simpleCookie.setMaxAge(60 * 60 * 24 * 15);\r\n        return simpleCookie;\r\n    }\r\n\r\n    /**\r\n     * cookie管理对象;\r\n     * @return cookieRememberMeManager\r\n     */\r\n    private CookieRememberMeManager rememberMeManager() {\r\n        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();\r\n        cookieRememberMeManager.setCookie(rememberMeCookie());\r\n        // rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)\r\n        cookieRememberMeManager.setCipherKey(Base64.decode(ShiroCustomAESKeyUtil.getKey()));\r\n        return cookieRememberMeManager;\r\n    }\r\n\r\n    @Bean(\"shiroFilter\")\r\n    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {\r\n        ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();\r\n        shiroFilter.setSecurityManager(securityManager);\r\n\r\n        /*重要，设置自定义拦截器，当访问某些自定义url时，使用这个filter进行验证*/\r\n        Map<String, Filter> filters = new LinkedHashMap<>();\r\n        // 如果map里面key值为authc,表示所有名为authc的过滤条件使用这个自定义的filter\r\n        // map里面key值为LoginFilter,表示所有名为LoginFilter的过滤条件使用这个自定义的filter，具体见下方\r\n        filters.put(\"myFilter\", new LoginFilter());\r\n        shiroFilter.setFilters(filters);\r\n\r\n        shiroFilter.setLoginUrl(\"/login\");\r\n//        shiroFilter.setSuccessUrl(\"/sys/index\");\r\n        shiroFilter.setUnauthorizedUrl(\"/403\");\r\n\r\n        Map<String, String> filterMap = new LinkedHashMap<>();\r\n        filterMap.put(\"/static/**\", \"anon\");\r\n        filterMap.put(\"/login/**\", \"anon\");\r\n//        filterMap.put(\"/logout\", \"logout\");   // 暂不使用Shiro自带的登出\r\n        filterMap.put(\"/druid/**\", \"anon\");\r\n        filterMap.put(\"/captcha\", \"anon\");\r\n        filterMap.put(\"/func/userInfo/login\", \"anon\");\r\n        filterMap.put(\"/func/userInfo/submit\", \"anon\");\r\n        filterMap.put(\"/func/userInfo/getRank\", \"anon\");\r\n        filterMap.put(\"/func/questionBank/getRandQuestion\", \"anon\");\r\n\r\n        filterMap.put(\"/**\", \"myFilter,authc\");\r\n        shiroFilter.setFilterChainDefinitionMap(filterMap);\r\n\r\n        return shiroFilter;\r\n    }\r\n\r\n    @Bean(\"lifecycleBeanPostProcessor\")\r\n    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {\r\n        return new LifecycleBeanPostProcessor();\r\n    }\r\n\r\n    @Bean\r\n    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {\r\n        DefaultAdvisorAutoProxyCreator proxyCreator = new DefaultAdvisorAutoProxyCreator();\r\n        proxyCreator.setProxyTargetClass(true);\r\n        return proxyCreator;\r\n    }\r\n\r\n    @Bean\r\n    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {\r\n        AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();\r\n        advisor.setSecurityManager(securityManager);\r\n        return advisor;\r\n    }\r\n\r\n    /**\r\n     * 开启shiro标签\r\n     */\r\n    @Bean\r\n    public ShiroDialect shiroDialect() {\r\n        return new ShiroDialect();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/common/shiro/ShiroConfig.java b/src/main/java/com/kalvin/kvf/common/shiro/ShiroConfig.java
+--- a/src/main/java/com/kalvin/kvf/common/shiro/ShiroConfig.java	
++++ b/src/main/java/com/kalvin/kvf/common/shiro/ShiroConfig.java	
+@@ -117,10 +117,25 @@
+ //        filterMap.put("/logout", "logout");   // 暂不使用Shiro自带的登出
+         filterMap.put("/druid/**", "anon");
+         filterMap.put("/captcha", "anon");
+-        filterMap.put("/func/userInfo/login", "anon");
+-        filterMap.put("/func/userInfo/submit", "anon");
+-        filterMap.put("/func/userInfo/getRank", "anon");
+-        filterMap.put("/func/questionBank/getRandQuestion", "anon");
++        filterMap.put("/func/userInfo/**", "anon");
++        filterMap.put("/func/userTab/**", "anon");
++        filterMap.put("/func/questionBank/**", "anon");
++        filterMap.put("/func/record/getForUser", "anon");
++        filterMap.put("/func/questionCollect/collect", "anon");
++        filterMap.put("/func/questionCollect/getRandQuestionC", "anon");
++        filterMap.put("/func/questionError/getRandQuestionE", "anon");
++
++        filterMap.put("/func/userInfo/auth", "anon");
++        filterMap.put("/common/static/video/**", "anon");
++        filterMap.put("/func/train/**", "anon");
++        filterMap.put("/func/infoTest/**", "anon");
++        filterMap.put("/func/infoTestRecord/**", "anon");
++
++        filterMap.put("/func/summerCamp/**", "anon");
++        filterMap.put("/func/talkShow/**", "anon");
++        filterMap.put("/video/**", "anon");
++
++        filterMap.put("/zzd/**", "anon");
+ 
+         filterMap.put("/**", "myFilter,authc");
+         shiroFilter.setFilterChainDefinitionMap(filterMap);
+Index: src/main/resources/mapper/func/DepartMapper.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">\r\n<mapper namespace=\"com.kalvin.kvf.modules.func.mapper.DepartMapper\">\r\n\r\n    <!-- 通用查询映射结果 -->\r\n    <resultMap id=\"BaseResultMap\" type=\"com.kalvin.kvf.modules.func.entity.Depart\">\r\n        <id column=\"id\" property=\"id\" />\r\n        <result column=\"name\" property=\"name\" />\r\n        <result column=\"parentid\" property=\"parentid\" />\r\n        <result column=\"createDeptGroup\" property=\"createDeptGroup\" />\r\n        <result column=\"autoAddUser\" property=\"autoAddUser\" />\r\n        <result column=\"sourceIdentifier\" property=\"sourceIdentifier\" />\r\n    </resultMap>\r\n\r\n    <!-- 通用查询结果列 -->\r\n    <sql id=\"Base_Column_List\">\r\n       id, name, parentid, createDeptGroup, autoAddUser, sourceIdentifier\r\n    </sql>\r\n\r\n    <select id=\"selectDepartList\" resultType=\"com.kalvin.kvf.modules.func.entity.Depart\">\r\n        select <include refid=\"Base_Column_List\" /> from func_depart\r\n        <trim prefix=\"where\" prefixOverrides=\"and\">\r\n            <if test=\"depart.name != null and depart.name != ''\">\r\n                and name like concat(#{depart.name}, \"%\")\r\n            </if>\r\n            <if test=\"depart.parentid != null\">\r\n                and parentid = #{depart.parentid}\r\n            </if>\r\n            <if test=\"depart.createDeptGroup != null and depart.createDeptGroup != ''\">\r\n                and createDeptGroup like concat(#{depart.createDeptGroup}, \"%\")\r\n            </if>\r\n            <if test=\"depart.autoAddUser != null and depart.autoAddUser != ''\">\r\n                and autoAddUser like concat(#{depart.autoAddUser}, \"%\")\r\n            </if>\r\n            <if test=\"depart.sourceIdentifier != null and depart.sourceIdentifier != ''\">\r\n                and sourceIdentifier like concat(#{depart.sourceIdentifier}, \"%\")\r\n            </if>\r\n        </trim>\r\n    </select>\r\n\r\n</mapper>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/mapper/func/DepartMapper.xml b/src/main/resources/mapper/func/DepartMapper.xml
+--- a/src/main/resources/mapper/func/DepartMapper.xml	
++++ b/src/main/resources/mapper/func/DepartMapper.xml	
+@@ -7,14 +7,11 @@
+         <id column="id" property="id" />
+         <result column="name" property="name" />
+         <result column="parentid" property="parentid" />
+-        <result column="createDeptGroup" property="createDeptGroup" />
+-        <result column="autoAddUser" property="autoAddUser" />
+-        <result column="sourceIdentifier" property="sourceIdentifier" />
+     </resultMap>
+ 
+     <!-- 通用查询结果列 -->
+     <sql id="Base_Column_List">
+-       id, name, parentid, createDeptGroup, autoAddUser, sourceIdentifier
++       id, name, parentid
+     </sql>
+ 
+     <select id="selectDepartList" resultType="com.kalvin.kvf.modules.func.entity.Depart">
+@@ -25,15 +22,6 @@
+             </if>
+             <if test="depart.parentid != null">
+                 and parentid = #{depart.parentid}
+-            </if>
+-            <if test="depart.createDeptGroup != null and depart.createDeptGroup != ''">
+-                and createDeptGroup like concat(#{depart.createDeptGroup}, "%")
+-            </if>
+-            <if test="depart.autoAddUser != null and depart.autoAddUser != ''">
+-                and autoAddUser like concat(#{depart.autoAddUser}, "%")
+-            </if>
+-            <if test="depart.sourceIdentifier != null and depart.sourceIdentifier != ''">
+-                and sourceIdentifier like concat(#{depart.sourceIdentifier}, "%")
+             </if>
+         </trim>
+     </select>
+Index: src/main/java/com/kalvin/kvf/modules/func/entity/SummerCamp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.modules.func.entity;\r\n\r\nimport com.baomidou.mybatisplus.annotation.IdType;\r\nimport com.baomidou.mybatisplus.annotation.TableId;\r\nimport com.baomidou.mybatisplus.annotation.TableName;\r\nimport lombok.Data;\r\nimport lombok.EqualsAndHashCode;\r\nimport lombok.experimental.Accessors;\r\nimport com.kalvin.kvf.common.entity.BaseEntity;\r\nimport org.springframework.format.annotation.DateTimeFormat;\r\nimport java.time.LocalDateTime;\r\n\r\n/**\r\n * <p>\r\n * 夏令营\r\n * </p>\r\n * @since 2022-08-16 14:54:46\r\n */\r\n@Data\r\n@EqualsAndHashCode(callSuper = true)\r\n@Accessors(chain = true)\r\n@TableName(\"func_summer_camp\")\r\npublic class SummerCamp extends BaseEntity {\r\n\r\n    private static final long serialVersionUID = 1L;\r\n\r\n    /**\r\n     * \r\n     */\r\n    @TableId(value = \"id\", type = IdType.AUTO)\r\n    private Integer id;\r\n\r\n    /**\r\n     * 姓名\r\n     */\r\n    private String name;\r\n\r\n    /**\r\n     * 年龄\r\n     */\r\n    private Integer age;\r\n\r\n    /**\r\n     * 性别\r\n     */\r\n    private String sex;\r\n\r\n    /**\r\n     * 是否外出\r\n     */\r\n    private Boolean ifout;\r\n\r\n    /**\r\n     * 外出地点\r\n     */\r\n    private String place;\r\n\r\n    /**\r\n     * 创建时间\r\n     */\r\n    @DateTimeFormat(pattern = \"yyyy-MM-dd HH:mm:ss\")\r\n    private LocalDateTime createTime;\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/modules/func/entity/SummerCamp.java b/src/main/java/com/kalvin/kvf/modules/func/entity/SummerCamp.java
+--- a/src/main/java/com/kalvin/kvf/modules/func/entity/SummerCamp.java	
++++ b/src/main/java/com/kalvin/kvf/modules/func/entity/SummerCamp.java	
+@@ -3,17 +3,21 @@
+ import com.baomidou.mybatisplus.annotation.IdType;
+ import com.baomidou.mybatisplus.annotation.TableId;
+ import com.baomidou.mybatisplus.annotation.TableName;
++import com.fasterxml.jackson.annotation.JsonFormat;
+ import lombok.Data;
+ import lombok.EqualsAndHashCode;
+ import lombok.experimental.Accessors;
+ import com.kalvin.kvf.common.entity.BaseEntity;
+ import org.springframework.format.annotation.DateTimeFormat;
++
+ import java.time.LocalDateTime;
++import java.util.Date;
+ 
+ /**
+  * <p>
+  * 夏令营
+  * </p>
++ *
+  * @since 2022-08-16 14:54:46
+  */
+ @Data
+@@ -25,7 +29,7 @@
+     private static final long serialVersionUID = 1L;
+ 
+     /**
+-     * 
++     *
+      */
+     @TableId(value = "id", type = IdType.AUTO)
+     private Integer id;
+@@ -45,6 +49,11 @@
+      */
+     private String sex;
+ 
++    /**
++     * 联系电话
++     */
++    private String tel;
++
+     /**
+      * 是否外出
+      */
+@@ -58,7 +67,7 @@
+     /**
+      * 创建时间
+      */
+-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+-    private LocalDateTime createTime;
++    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
++    private Date createTime;
+ 
+ }
+Index: src/main/resources/mapper/func/TrainMapper.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">\r\n<mapper namespace=\"com.kalvin.kvf.modules.func.mapper.TrainMapper\">\r\n\r\n    <!-- 通用查询映射结果 -->\r\n    <resultMap id=\"BaseResultMap\" type=\"com.kalvin.kvf.modules.func.entity.Train\">\r\n        <id column=\"id\" property=\"id\" />\r\n        <result column=\"title\" property=\"title\" />\r\n        <result column=\"video_url\" property=\"videoUrl\" />\r\n        <result column=\"descrption\" property=\"descrption\" />\r\n        <result column=\"create_time\" property=\"createTime\" />\r\n    </resultMap>\r\n\r\n    <!-- 通用查询结果列 -->\r\n    <sql id=\"Base_Column_List\">\r\n       id, title, video_url, descrption, create_time\r\n    </sql>\r\n\r\n    <select id=\"selectTrainList\" resultType=\"com.kalvin.kvf.modules.func.entity.Train\">\r\n        select <include refid=\"Base_Column_List\" /> from func_train\r\n        <trim prefix=\"where\" prefixOverrides=\"and\">\r\n            <if test=\"train.title != null and train.title != ''\">\r\n                and title like concat(#{train.title}, \"%\")\r\n            </if>\r\n        </trim>\r\n    </select>\r\n\r\n</mapper>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/mapper/func/TrainMapper.xml b/src/main/resources/mapper/func/TrainMapper.xml
+--- a/src/main/resources/mapper/func/TrainMapper.xml	
++++ b/src/main/resources/mapper/func/TrainMapper.xml	
+@@ -7,13 +7,13 @@
+         <id column="id" property="id" />
+         <result column="title" property="title" />
+         <result column="video_url" property="videoUrl" />
+-        <result column="descrption" property="descrption" />
++        <result column="description" property="description" />
+         <result column="create_time" property="createTime" />
+     </resultMap>
+ 
+     <!-- 通用查询结果列 -->
+     <sql id="Base_Column_List">
+-       id, title, video_url, descrption, create_time
++       id, title, video_url, description, create_time
+     </sql>
+ 
+     <select id="selectTrainList" resultType="com.kalvin.kvf.modules.func.entity.Train">
+@@ -24,5 +24,20 @@
+             </if>
+         </trim>
+     </select>
+-
++    <select id="getTrainList" resultType="com.kalvin.kvf.modules.func.entity.Train">
++        select a.*,IFNULL(b.count,0) count from func_train a
++        LEFT JOIN
++        (
++        SELECT train_id, count(*) count from func_train_record
++        GROUP BY train_id
++        ) b ON a.id = b.train_id
++        where a.id
++        <if test="train.tabCur == 0">
++            not
++        </if>
++        in(
++            select train_id from func_train_record
++            WHERE user_id = #{train.userId}
++        )
++    </select>
+ </mapper>
+Index: src/main/java/com/kalvin/kvf/modules/func/entity/TrainRecord.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.modules.func.entity;\r\n\r\nimport com.baomidou.mybatisplus.annotation.IdType;\r\nimport com.baomidou.mybatisplus.annotation.TableId;\r\nimport com.baomidou.mybatisplus.annotation.TableName;\r\nimport lombok.Data;\r\nimport lombok.EqualsAndHashCode;\r\nimport lombok.experimental.Accessors;\r\nimport com.kalvin.kvf.common.entity.BaseEntity;\r\nimport org.springframework.format.annotation.DateTimeFormat;\r\nimport java.time.LocalDateTime;\r\n\r\n/**\r\n * <p>\r\n * \r\n * </p>\r\n * @since 2022-06-10 09:34:01\r\n */\r\n@Data\r\n@EqualsAndHashCode(callSuper = true)\r\n@Accessors(chain = true)\r\n@TableName(\"func_train_record\")\r\npublic class TrainRecord extends BaseEntity {\r\n\r\n    private static final long serialVersionUID = 1L;\r\n\r\n    /**\r\n     * \r\n     */\r\n    @TableId(value = \"id\", type = IdType.AUTO)\r\n    private Integer id;\r\n\r\n    /**\r\n     * \r\n     */\r\n    private String userId;\r\n\r\n    /**\r\n     * \r\n     */\r\n    private Integer trainId;\r\n\r\n    /**\r\n     * \r\n     */\r\n    @DateTimeFormat(pattern = \"yyyy-MM-dd HH:mm:ss\")\r\n    private LocalDateTime createTime;\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/modules/func/entity/TrainRecord.java b/src/main/java/com/kalvin/kvf/modules/func/entity/TrainRecord.java
+--- a/src/main/java/com/kalvin/kvf/modules/func/entity/TrainRecord.java	
++++ b/src/main/java/com/kalvin/kvf/modules/func/entity/TrainRecord.java	
+@@ -9,6 +9,7 @@
+ import com.kalvin.kvf.common.entity.BaseEntity;
+ import org.springframework.format.annotation.DateTimeFormat;
+ import java.time.LocalDateTime;
++import java.util.Date;
+ 
+ /**
+  * <p>
+@@ -44,6 +45,6 @@
+      * 
+      */
+     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+-    private LocalDateTime createTime;
++    private Date createTime;
+ 
+ }
+Index: src/main/resources/mapper/func/SummerCampMapper.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">\r\n<mapper namespace=\"com.kalvin.kvf.modules.func.mapper.SummerCampMapper\">\r\n\r\n    <!-- 通用查询映射结果 -->\r\n    <resultMap id=\"BaseResultMap\" type=\"com.kalvin.kvf.modules.func.entity.SummerCamp\">\r\n        <id column=\"id\" property=\"id\" />\r\n        <result column=\"name\" property=\"name\" />\r\n        <result column=\"age\" property=\"age\" />\r\n        <result column=\"sex\" property=\"sex\" />\r\n        <result column=\"ifout\" property=\"ifout\" />\r\n        <result column=\"place\" property=\"place\" />\r\n        <result column=\"create_time\" property=\"createTime\" />\r\n    </resultMap>\r\n\r\n    <!-- 通用查询结果列 -->\r\n    <sql id=\"Base_Column_List\">\r\n       id, name, age, sex, ifout, place, create_time\r\n    </sql>\r\n\r\n    <select id=\"selectSummerCampList\" resultType=\"com.kalvin.kvf.modules.func.entity.SummerCamp\">\r\n        select <include refid=\"Base_Column_List\" /> from func_summer_camp\r\n        <trim prefix=\"where\" prefixOverrides=\"and\">\r\n            <if test=\"summerCamp.name != null and summerCamp.name != ''\">\r\n                and name like concat(#{summerCamp.name}, \"%\")\r\n            </if>\r\n        </trim>\r\n    </select>\r\n\r\n</mapper>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/mapper/func/SummerCampMapper.xml b/src/main/resources/mapper/func/SummerCampMapper.xml
+--- a/src/main/resources/mapper/func/SummerCampMapper.xml	
++++ b/src/main/resources/mapper/func/SummerCampMapper.xml	
+@@ -8,6 +8,7 @@
+         <result column="name" property="name" />
+         <result column="age" property="age" />
+         <result column="sex" property="sex" />
++        <result column="tel" property="tel" />
+         <result column="ifout" property="ifout" />
+         <result column="place" property="place" />
+         <result column="create_time" property="createTime" />
+@@ -15,7 +16,7 @@
+ 
+     <!-- 通用查询结果列 -->
+     <sql id="Base_Column_List">
+-       id, name, age, sex, ifout, place, create_time
++       id, name, age, sex, tel, ifout, place, create_time
+     </sql>
+ 
+     <select id="selectSummerCampList" resultType="com.kalvin.kvf.modules.func.entity.SummerCamp">
+Index: src/main/java/com/kalvin/kvf/modules/func/entity/QuestionCollect.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.modules.func.entity;\r\n\r\nimport com.baomidou.mybatisplus.annotation.IdType;\r\nimport com.baomidou.mybatisplus.annotation.TableId;\r\nimport com.baomidou.mybatisplus.annotation.TableName;\r\nimport lombok.Data;\r\nimport lombok.EqualsAndHashCode;\r\nimport lombok.experimental.Accessors;\r\nimport com.kalvin.kvf.common.entity.BaseEntity;\r\nimport org.springframework.format.annotation.DateTimeFormat;\r\nimport java.time.LocalDateTime;\r\n\r\n/**\r\n * <p>\r\n * \r\n * </p>\r\n * @since 2022-01-17 08:50:34\r\n */\r\n@Data\r\n@EqualsAndHashCode(callSuper = true)\r\n@Accessors(chain = true)\r\n@TableName(\"func_question_collect\")\r\npublic class QuestionCollect extends BaseEntity {\r\n\r\n    private static final long serialVersionUID = 1L;\r\n\r\n    /**\r\n     * \r\n     */\r\n    @TableId(value = \"id\", type = IdType.AUTO)\r\n    private Integer id;\r\n\r\n    /**\r\n     * 用户id\r\n     */\r\n    private Integer userid;\r\n\r\n    /**\r\n     * 题目id\r\n     */\r\n    private Integer qsId;\r\n\r\n    /**\r\n     * 状态\r\n     */\r\n    private Boolean status;\r\n\r\n    /**\r\n     * 创建时间\r\n     */\r\n    @DateTimeFormat(pattern = \"yyyy-MM-dd HH:mm:ss\")\r\n    private LocalDateTime createTime;\r\n\r\n    /**\r\n     * 更新时间\r\n     */\r\n    @DateTimeFormat(pattern = \"yyyy-MM-dd HH:mm:ss\")\r\n    private LocalDateTime updateTime;\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/modules/func/entity/QuestionCollect.java b/src/main/java/com/kalvin/kvf/modules/func/entity/QuestionCollect.java
+--- a/src/main/java/com/kalvin/kvf/modules/func/entity/QuestionCollect.java	
++++ b/src/main/java/com/kalvin/kvf/modules/func/entity/QuestionCollect.java	
+@@ -3,12 +3,14 @@
+ import com.baomidou.mybatisplus.annotation.IdType;
+ import com.baomidou.mybatisplus.annotation.TableId;
+ import com.baomidou.mybatisplus.annotation.TableName;
++import com.fasterxml.jackson.annotation.JsonFormat;
+ import lombok.Data;
+ import lombok.EqualsAndHashCode;
+ import lombok.experimental.Accessors;
+ import com.kalvin.kvf.common.entity.BaseEntity;
+ import org.springframework.format.annotation.DateTimeFormat;
+ import java.time.LocalDateTime;
++import java.util.Date;
+ 
+ /**
+  * <p>
+@@ -33,7 +35,7 @@
+     /**
+      * 用户id
+      */
+-    private Integer userid;
++    private String userid;
+ 
+     /**
+      * 题目id
+@@ -48,13 +50,13 @@
+     /**
+      * 创建时间
+      */
+-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+-    private LocalDateTime createTime;
++    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
++    private Date createTime;
+ 
+     /**
+      * 更新时间
+      */
+-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+-    private LocalDateTime updateTime;
++    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
++    private Date updateTime;
+ 
+ }
+Index: src/main/java/com/kalvin/kvf/modules/func/entity/InfoTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.modules.func.entity;\r\n\r\nimport com.baomidou.mybatisplus.annotation.IdType;\r\nimport com.baomidou.mybatisplus.annotation.TableId;\r\nimport com.baomidou.mybatisplus.annotation.TableName;\r\nimport lombok.Data;\r\nimport lombok.EqualsAndHashCode;\r\nimport lombok.experimental.Accessors;\r\nimport com.kalvin.kvf.common.entity.BaseEntity;\r\nimport org.springframework.format.annotation.DateTimeFormat;\r\nimport java.time.LocalDateTime;\r\n\r\n/**\r\n * <p>\r\n * \r\n * </p>\r\n * @since 2022-06-15 09:41:05\r\n */\r\n@Data\r\n@EqualsAndHashCode(callSuper = true)\r\n@Accessors(chain = true)\r\n@TableName(\"func_info_test\")\r\npublic class InfoTest extends BaseEntity {\r\n\r\n    private static final long serialVersionUID = 1L;\r\n\r\n    /**\r\n     * \r\n     */\r\n    @TableId(value = \"id\", type = IdType.AUTO)\r\n    private Integer id;\r\n\r\n    /**\r\n     * 标题\r\n     */\r\n    private String title;\r\n\r\n    /**\r\n     * 题目列表\r\n     */\r\n    private String ids;\r\n\r\n    /**\r\n     * \r\n     */\r\n    @DateTimeFormat(pattern = \"yyyy-MM-dd HH:mm:ss\")\r\n    private LocalDateTime createTime;\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/modules/func/entity/InfoTest.java b/src/main/java/com/kalvin/kvf/modules/func/entity/InfoTest.java
+--- a/src/main/java/com/kalvin/kvf/modules/func/entity/InfoTest.java	
++++ b/src/main/java/com/kalvin/kvf/modules/func/entity/InfoTest.java	
+@@ -1,20 +1,23 @@
+ package com.kalvin.kvf.modules.func.entity;
+ 
+ import com.baomidou.mybatisplus.annotation.IdType;
++import com.baomidou.mybatisplus.annotation.TableField;
+ import com.baomidou.mybatisplus.annotation.TableId;
+ import com.baomidou.mybatisplus.annotation.TableName;
++import com.fasterxml.jackson.annotation.JsonFormat;
+ import lombok.Data;
+ import lombok.EqualsAndHashCode;
+ import lombok.experimental.Accessors;
+ import com.kalvin.kvf.common.entity.BaseEntity;
+ import org.springframework.format.annotation.DateTimeFormat;
+ import java.time.LocalDateTime;
++import java.util.Date;
+ 
+ /**
+  * <p>
+  * 
+  * </p>
+- * @since 2022-06-15 09:41:05
++ * @since 2022-06-15 09:43:42
+  */
+ @Data
+ @EqualsAndHashCode(callSuper = true)
+@@ -41,9 +44,26 @@
+     private String ids;
+ 
+     /**
+-     * 
++     * 得分
++     */
++    @TableField(exist = false)
++    private Integer score;
++
++    /**
++     * 开始时间
+      */
+-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+-    private LocalDateTime createTime;
++    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
++    private Date startTime;
+ 
++    /**
++     * 结束时间
++     */
++    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
++    private Date endTime;
++
++    /**
++     * 创建时间
++     */
++    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
++    private Date createTime;
+ }
+Index: src/main/java/com/kalvin/kvf/modules/func/entity/Record.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.modules.func.entity;\r\n\r\nimport com.baomidou.mybatisplus.annotation.IdType;\r\nimport com.baomidou.mybatisplus.annotation.TableId;\r\nimport com.baomidou.mybatisplus.annotation.TableName;\r\nimport lombok.Data;\r\nimport lombok.EqualsAndHashCode;\r\nimport lombok.experimental.Accessors;\r\nimport com.kalvin.kvf.common.entity.BaseEntity;\r\nimport org.springframework.format.annotation.DateTimeFormat;\r\nimport java.time.LocalDateTime;\r\n\r\n/**\r\n * <p>\r\n * \r\n * </p>\r\n * @since 2021-03-30 16:24:21\r\n */\r\n@Data\r\n@EqualsAndHashCode(callSuper = true)\r\n@Accessors(chain = true)\r\n@TableName(\"func_record\")\r\npublic class Record extends BaseEntity {\r\n\r\n    private static final long serialVersionUID = 1L;\r\n\r\n    /**\r\n     * \r\n     */\r\n    @TableId(value = \"id\", type = IdType.AUTO)\r\n    private Long id;\r\n\r\n    /**\r\n     * \r\n     */\r\n    private String userid;\r\n\r\n    /**\r\n     * \r\n     */\r\n    private String realname;\r\n\r\n    /**\r\n     * \r\n     */\r\n    private Integer level;\r\n\r\n    /**\r\n     * \r\n     */\r\n    @DateTimeFormat(pattern = \"yyyy-MM-dd HH:mm:ss\")\r\n    private LocalDateTime createTime;\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/modules/func/entity/Record.java b/src/main/java/com/kalvin/kvf/modules/func/entity/Record.java
+--- a/src/main/java/com/kalvin/kvf/modules/func/entity/Record.java	
++++ b/src/main/java/com/kalvin/kvf/modules/func/entity/Record.java	
+@@ -3,12 +3,14 @@
+ import com.baomidou.mybatisplus.annotation.IdType;
+ import com.baomidou.mybatisplus.annotation.TableId;
+ import com.baomidou.mybatisplus.annotation.TableName;
++import com.fasterxml.jackson.annotation.JsonFormat;
+ import lombok.Data;
+ import lombok.EqualsAndHashCode;
+ import lombok.experimental.Accessors;
+ import com.kalvin.kvf.common.entity.BaseEntity;
+ import org.springframework.format.annotation.DateTimeFormat;
+ import java.time.LocalDateTime;
++import java.util.Date;
+ 
+ /**
+  * <p>
+@@ -48,7 +50,6 @@
+     /**
+      * 
+      */
+-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+-    private LocalDateTime createTime;
+-
++    @JsonFormat(timezone = "GMT+8",pattern="yyyy-MM-dd HH:mm:ss")
++    private Date createTime;
+ }
+Index: src/main/resources/mapper/func/QuestionBankMapper.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">\r\n<mapper namespace=\"com.kalvin.kvf.modules.func.mapper.QuestionBankMapper\">\r\n\r\n    <!-- 通用查询映射结果 -->\r\n    <resultMap id=\"BaseResultMap\" type=\"com.kalvin.kvf.modules.func.entity.QuestionBank\">\r\n        <id column=\"id\" property=\"id\"/>\r\n        <result column=\"example\" property=\"example\"/>\r\n        <result column=\"question\" property=\"question\"/>\r\n        <result column=\"answer\" property=\"answer\"/>\r\n        <result column=\"status\" property=\"status\"/>\r\n        <result column=\"subject_type\" property=\"subjectType\"/>\r\n        <result column=\"create_by\" property=\"createBy\"/>\r\n        <result column=\"create_time\" property=\"createTime\"/>\r\n        <result column=\"update_by\" property=\"updateBy\"/>\r\n        <result column=\"update_time\" property=\"updateTime\"/>\r\n    </resultMap>\r\n\r\n    <!-- 通用查询结果列 -->\r\n    <sql id=\"Base_Column_List\">\r\n        id, example, question,  answer,  status, subject_type, create_by, create_time, update_by, update_time\r\n    </sql>\r\n\r\n    <select id=\"selectQuestionBankList\" resultType=\"com.kalvin.kvf.modules.func.entity.QuestionBank\">\r\n        select\r\n        <include refid=\"Base_Column_List\"/>\r\n        from func_question_bank\r\n        <trim prefix=\"where\" prefixOverrides=\"and\">\r\n            <if test=\"questionBank.subjectType != null\">\r\n                and subject_type = #{questionBank.subjectType}\r\n            </if>\r\n            <if test=\"questionBank.status != null\">\r\n                and status = #{questionBank.status}\r\n            </if>\r\n        </trim>\r\n        order by create_time desc\r\n    </select>\r\n</mapper>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/mapper/func/QuestionBankMapper.xml b/src/main/resources/mapper/func/QuestionBankMapper.xml
+--- a/src/main/resources/mapper/func/QuestionBankMapper.xml	
++++ b/src/main/resources/mapper/func/QuestionBankMapper.xml	
+@@ -9,6 +9,7 @@
+         <result column="question" property="question"/>
+         <result column="answer" property="answer"/>
+         <result column="status" property="status"/>
++        <result column="classify" property="classify"/>
+         <result column="subject_type" property="subjectType"/>
+         <result column="create_by" property="createBy"/>
+         <result column="create_time" property="createTime"/>
+@@ -18,7 +19,7 @@
+ 
+     <!-- 通用查询结果列 -->
+     <sql id="Base_Column_List">
+-        id, example, question,  answer,  status, subject_type, create_by, create_time, update_by, update_time
++        id, example, question,  answer,  status, classify, subject_type, create_by, create_time, update_by, update_time
+     </sql>
+ 
+     <select id="selectQuestionBankList" resultType="com.kalvin.kvf.modules.func.entity.QuestionBank">
+@@ -26,6 +27,12 @@
+         <include refid="Base_Column_List"/>
+         from func_question_bank
+         <trim prefix="where" prefixOverrides="and">
++            <if test="questionBank.question != null and questionBank.question != ''">
++                and question like concat("%" , #{questionBank.question}, "%")
++            </if>
++            <if test="questionBank.classify != null">
++                and classify = #{questionBank.classify}
++            </if>
+             <if test="questionBank.subjectType != null">
+                 and subject_type = #{questionBank.subjectType}
+             </if>
+Index: src/main/java/com/kalvin/kvf/modules/func/entity/QuestionBank.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.modules.func.entity;\r\n\r\nimport com.baomidou.mybatisplus.annotation.IdType;\r\nimport com.baomidou.mybatisplus.annotation.TableField;\r\nimport com.baomidou.mybatisplus.annotation.TableId;\r\nimport com.baomidou.mybatisplus.annotation.TableName;\r\nimport com.kalvin.kvf.common.entity.BaseEntity;\r\nimport com.kalvin.kvf.modules.func.vo.AnswerDto;\r\nimport lombok.Data;\r\nimport lombok.EqualsAndHashCode;\r\nimport lombok.experimental.Accessors;\r\nimport org.springframework.format.annotation.DateTimeFormat;\r\n\r\nimport java.util.Date;\r\nimport java.util.List;\r\n\r\n/**\r\n * <p>\r\n * 题库\r\n * </p>\r\n *\r\n * @since 2020-07-20 10:24:50\r\n */\r\n@Data\r\n@EqualsAndHashCode(callSuper = true)\r\n@Accessors(chain = true)\r\n@TableName(\"func_question_bank\")\r\npublic class QuestionBank extends BaseEntity {\r\n\r\n    private static final long serialVersionUID = 1L;\r\n\r\n    /**\r\n     *\r\n     */\r\n    @TableId(value = \"id\", type = IdType.AUTO)\r\n    private Long id;\r\n\r\n    /**\r\n     * 题目类型\r\n     */\r\n    private Long subjectType;\r\n\r\n    /**\r\n     * 示例\r\n     */\r\n    private String example;\r\n\r\n    /**\r\n     * 问题\r\n     */\r\n    private String question;\r\n\r\n    /**\r\n     * 答案\r\n     */\r\n    private String answer;\r\n\r\n    @TableField(exist = false)\r\n    private List<AnswerDto> answerDtos;\r\n\r\n    /**\r\n     * 状态\r\n     */\r\n    private Integer status;\r\n\r\n\r\n    /**\r\n     * 创建人\r\n     */\r\n    private Long createBy;\r\n\r\n    /**\r\n     * 创建时间\r\n     */\r\n    @DateTimeFormat(pattern = \"yyyy-MM-dd HH:mm:ss\")\r\n    private Date createTime;\r\n\r\n    /**\r\n     * 修改人\r\n     */\r\n    private Long updateBy;\r\n\r\n    /**\r\n     * 修改时间\r\n     */\r\n    @DateTimeFormat(pattern = \"yyyy-MM-dd HH:mm:ss\")\r\n    private Date updateTime;\r\n\r\n    /**\r\n     * 查询条件\r\n     */\r\n    @TableField(exist = false)\r\n    private String createBys;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/modules/func/entity/QuestionBank.java b/src/main/java/com/kalvin/kvf/modules/func/entity/QuestionBank.java
+--- a/src/main/java/com/kalvin/kvf/modules/func/entity/QuestionBank.java	
++++ b/src/main/java/com/kalvin/kvf/modules/func/entity/QuestionBank.java	
+@@ -40,6 +40,11 @@
+      */
+     private Long subjectType;
+ 
++    /**
++     * 题目类别
++     */
++    private String classify;
++
+     /**
+      * 示例
+      */
+@@ -55,15 +60,30 @@
+      */
+     private String answer;
+ 
++    /**
++     * 正确答案列表
++     */
+     @TableField(exist = false)
+     private List<AnswerDto> answerDtos;
+ 
++    /**
++     * 正确答案ABCD表示
++     */
++    @TableField(exist = false)
++    private String correct;
++
+     /**
+      * 状态
+      */
+     private Integer status;
+ 
+ 
++    /**
++     * 是否已收藏、错题
++     */
++    @TableField(exist = false)
++    private Boolean sta;
++
+     /**
+      * 创建人
+      */
+Index: src/main/java/com/kalvin/kvf/common/utils/FileUploadKit.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.common.utils;\r\n\r\nimport cn.hutool.core.date.DateUtil;\r\nimport cn.hutool.core.util.RandomUtil;\r\nimport com.kalvin.kvf.common.constant.Constants;\r\nimport com.kalvin.kvf.common.constant.UploadPathEnum;\r\nimport com.kalvin.kvf.common.dto.UploadFileInfo;\r\nimport com.kalvin.kvf.common.exception.KvfException;\r\nimport org.slf4j.Logger;\r\nimport org.slf4j.LoggerFactory;\r\nimport org.springframework.web.multipart.MultipartFile;\r\n\r\nimport java.io.File;\r\nimport java.io.IOException;\r\n\r\n/**\r\n * 文件上传工具\r\n * @author Kalvin\r\n */\r\npublic class FileUploadKit {\r\n\r\n    private final static Logger LOGGER = LoggerFactory.getLogger(FileUploadKit.class);\r\n\r\n    public static UploadFileInfo upload(MultipartFile multipartFile, UploadPathEnum pathEnum) {\r\n        String basePath = System.getProperty(\"user.dir\") + File.separator + Constants.BASE_USER_FILE_PATH;\r\n        String filename = multipartFile.getOriginalFilename();\r\n        String path = pathEnum.getPath() + \"/\" + DateUtil.format(DateUtil.date(), \"yyyyMMdd\");\r\n        String filePath = basePath + \"/\" + path + \"/\" + filename;\r\n        LOGGER.debug(\"upload filename:{}\", filename);\r\n        LOGGER.debug(\"upload filePath:{}\", filePath);\r\n        File file = new File(filePath);\r\n        try {\r\n            File parentFile = file.getParentFile();\r\n            if (parentFile != null && !parentFile.exists()) {\r\n                if (parentFile.mkdirs()) {\r\n                    LOGGER.debug(\"created path:{}\", parentFile.getAbsolutePath());\r\n                }\r\n            }\r\n            if (file.exists()) {\r\n                assert filename != null;\r\n                int index = filename.lastIndexOf(\".\");\r\n                filename = filename.substring(0, index) + \"_\" + RandomUtil.randomNumbers(5) + filename.substring(index);\r\n                file = new File(basePath + \"/\" + path + \"/\" + filename);\r\n            }\r\n            if (file.createNewFile()) {\r\n                multipartFile.transferTo(file);\r\n            } else {\r\n                throw new KvfException(\"文件上传失败\");\r\n            }\r\n        } catch (IOException e) {\r\n            throw new KvfException(\"文件上传失败：\" + e.getMessage() + filePath);\r\n        }\r\n\r\n        return new UploadFileInfo(filename, path + \"/\" + filename, filePath.replaceAll(\"\\\\\\\\\", \"\\\\/\"));\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/common/utils/FileUploadKit.java b/src/main/java/com/kalvin/kvf/common/utils/FileUploadKit.java
+--- a/src/main/java/com/kalvin/kvf/common/utils/FileUploadKit.java	
++++ b/src/main/java/com/kalvin/kvf/common/utils/FileUploadKit.java	
+@@ -53,5 +53,4 @@
+ 
+         return new UploadFileInfo(filename, path + "/" + filename, filePath.replaceAll("\\\\", "\\/"));
+     }
+-
+ }
+Index: src/main/java/com/kalvin/kvf/modules/func/mapper/InfoTestMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.modules.func.mapper;\r\n\r\nimport com.baomidou.mybatisplus.core.mapper.BaseMapper;\r\nimport com.baomidou.mybatisplus.core.metadata.IPage;\r\nimport com.kalvin.kvf.modules.func.entity.InfoTest;\r\n\r\nimport java.util.List;\r\n\r\n/**\r\n * <p>\r\n *  Mapper 接口\r\n * </p>\r\n * @since 2022-06-15 09:43:42\r\n */\r\npublic interface InfoTestMapper extends BaseMapper<InfoTest> {\r\n\r\n    /**\r\n     * 查询列表(分页)\r\n     * @param infoTest 查询参数\r\n     * @param page 分页参数\r\n     * @return list\r\n     */\r\n    List<InfoTest> selectInfoTestList(InfoTest infoTest, IPage page);\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/modules/func/mapper/InfoTestMapper.java b/src/main/java/com/kalvin/kvf/modules/func/mapper/InfoTestMapper.java
+--- a/src/main/java/com/kalvin/kvf/modules/func/mapper/InfoTestMapper.java	
++++ b/src/main/java/com/kalvin/kvf/modules/func/mapper/InfoTestMapper.java	
+@@ -3,6 +3,9 @@
+ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+ import com.baomidou.mybatisplus.core.metadata.IPage;
+ import com.kalvin.kvf.modules.func.entity.InfoTest;
++import com.kalvin.kvf.modules.func.entity.QuestionBank;
++import org.apache.ibatis.annotations.Param;
++import org.apache.ibatis.annotations.Select;
+ 
+ import java.util.List;
+ 
+@@ -22,4 +25,16 @@
+      */
+     List<InfoTest> selectInfoTestList(InfoTest infoTest, IPage page);
+ 
++    @Select("SELECT\n" +
++            "\ta.*, b.score \n" +
++            "FROM\n" +
++            "\tfunc_info_test a\n" +
++            "LEFT JOIN ( SELECT test_id, score FROM func_info_test_record WHERE user_id = #{userId} ) b \n" +
++            "ON a.id = b.test_id")
++    List<InfoTest> getInfotests(@Param("userId") String userId);
++
++    @Select("SELECT * from func_question_bank\n" +
++            "where id in(${ids})\n" +
++            "ORDER BY subject_type")
++    List<QuestionBank> getInfotest(@Param("ids") String ids);
+ }
+Index: src/main/java/com/kalvin/kvf/modules/func/entity/Train.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.modules.func.entity;\r\n\r\nimport com.baomidou.mybatisplus.annotation.IdType;\r\nimport com.baomidou.mybatisplus.annotation.TableId;\r\nimport com.baomidou.mybatisplus.annotation.TableName;\r\nimport lombok.Data;\r\nimport lombok.EqualsAndHashCode;\r\nimport lombok.experimental.Accessors;\r\nimport com.kalvin.kvf.common.entity.BaseEntity;\r\nimport org.springframework.format.annotation.DateTimeFormat;\r\nimport java.time.LocalDateTime;\r\n\r\n/**\r\n * <p>\r\n * 在线培训表\r\n * </p>\r\n * @since 2022-06-08 09:36:53\r\n */\r\n@Data\r\n@EqualsAndHashCode(callSuper = true)\r\n@Accessors(chain = true)\r\n@TableName(\"func_train\")\r\npublic class Train extends BaseEntity {\r\n\r\n    private static final long serialVersionUID = 1L;\r\n\r\n    /**\r\n     * \r\n     */\r\n    @TableId(value = \"id\", type = IdType.AUTO)\r\n    private Integer id;\r\n\r\n    /**\r\n     * 标题\r\n     */\r\n    private String title;\r\n\r\n    /**\r\n     * 路径\r\n     */\r\n    private String videoUrl;\r\n\r\n    /**\r\n     * 描述\r\n     */\r\n    private String descrption;\r\n\r\n    /**\r\n     * 创建时间\r\n     */\r\n    @DateTimeFormat(pattern = \"yyyy-MM-dd HH:mm:ss\")\r\n    private LocalDateTime createTime;\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/modules/func/entity/Train.java b/src/main/java/com/kalvin/kvf/modules/func/entity/Train.java
+--- a/src/main/java/com/kalvin/kvf/modules/func/entity/Train.java	
++++ b/src/main/java/com/kalvin/kvf/modules/func/entity/Train.java	
+@@ -1,14 +1,17 @@
+ package com.kalvin.kvf.modules.func.entity;
+ 
+ import com.baomidou.mybatisplus.annotation.IdType;
++import com.baomidou.mybatisplus.annotation.TableField;
+ import com.baomidou.mybatisplus.annotation.TableId;
+ import com.baomidou.mybatisplus.annotation.TableName;
++import com.fasterxml.jackson.annotation.JsonFormat;
+ import lombok.Data;
+ import lombok.EqualsAndHashCode;
+ import lombok.experimental.Accessors;
+ import com.kalvin.kvf.common.entity.BaseEntity;
+ import org.springframework.format.annotation.DateTimeFormat;
+ import java.time.LocalDateTime;
++import java.util.Date;
+ 
+ /**
+  * <p>
+@@ -43,12 +46,20 @@
+     /**
+      * 描述
+      */
+-    private String descrption;
++    private String description;
+ 
+     /**
+      * 创建时间
+      */
+-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+-    private LocalDateTime createTime;
++    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
++    private Date createTime;
++
++    @TableField(exist= false)
++    private int tabCur = 0;
+ 
++    @TableField(exist= false)
++    private String userId;
++
++    @TableField(exist= false)
++    private Integer count;
+ }
+Index: src/main/java/com/kalvin/kvf/modules/func/entity/Depart.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kalvin.kvf.modules.func.entity;\r\n\r\nimport com.baomidou.mybatisplus.annotation.IdType;\r\nimport com.baomidou.mybatisplus.annotation.TableId;\r\nimport com.baomidou.mybatisplus.annotation.TableName;\r\nimport lombok.Data;\r\nimport lombok.EqualsAndHashCode;\r\nimport lombok.experimental.Accessors;\r\nimport com.kalvin.kvf.common.entity.BaseEntity;\r\n\r\n/**\r\n * <p>\r\n * \r\n * </p>\r\n * @since 2021-04-01 14:33:52\r\n */\r\n@Data\r\n@EqualsAndHashCode(callSuper = true)\r\n@Accessors(chain = true)\r\n@TableName(\"func_depart\")\r\npublic class Depart extends BaseEntity {\r\n\r\n    private static final long serialVersionUID = 1L;\r\n\r\n    /**\r\n     * \r\n     */\r\n    @TableId(value = \"id\", type = IdType.AUTO)\r\n    private Long id;\r\n\r\n    /**\r\n     * \r\n     */\r\n    private String name;\r\n\r\n    /**\r\n     * \r\n     */\r\n    private Long parentid;\r\n\r\n    /**\r\n     * \r\n     */\r\n    private String createDeptGroup;\r\n\r\n    /**\r\n     * \r\n     */\r\n    private String autoAddUser;\r\n\r\n    /**\r\n     * \r\n     */\r\n    private String sourceIdentifier;\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/kalvin/kvf/modules/func/entity/Depart.java b/src/main/java/com/kalvin/kvf/modules/func/entity/Depart.java
+--- a/src/main/java/com/kalvin/kvf/modules/func/entity/Depart.java	
++++ b/src/main/java/com/kalvin/kvf/modules/func/entity/Depart.java	
+@@ -1,6 +1,7 @@
+ package com.kalvin.kvf.modules.func.entity;
+ 
+ import com.baomidou.mybatisplus.annotation.IdType;
++import com.baomidou.mybatisplus.annotation.TableField;
+ import com.baomidou.mybatisplus.annotation.TableId;
+ import com.baomidou.mybatisplus.annotation.TableName;
+ import lombok.Data;
+@@ -25,7 +26,7 @@
+     /**
+      * 
+      */
+-    @TableId(value = "id", type = IdType.AUTO)
++    @TableId(value = "id", type = IdType.INPUT)
+     private Long id;
+ 
+     /**
+@@ -38,19 +39,6 @@
+      */
+     private Long parentid;
+ 
+-    /**
+-     * 
+-     */
+-    private String createDeptGroup;
+-
+-    /**
+-     * 
+-     */
+-    private String autoAddUser;
+-
+-    /**
+-     * 
+-     */
+-    private String sourceIdentifier;
+-
++    @TableField(exist = false)
++    private Integer number;
+ }

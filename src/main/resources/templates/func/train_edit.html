@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="common/base::pagetitle"></title>
+    <link th:replace="common/base::static"/>
+</head>
+<body>
+<div class="layui-form" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" th:value="${editInfo.title}" placeholder="请输入标题" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item" id="videoUp">
+        <label class="layui-form-label" style="height: 137px; line-height: 117px">视频</label>
+        <input name="videoUrl" id="videoUrl" value="" autocomplete="off" class="layui-input" type="hidden">
+        <div class=" layui-upload-drag" id="kVideoUpload" style="border-left: 0px;" type="video">
+            <i class="layui-icon">&#xe654;</i>
+            <p>点击上传</p>
+            <video id="demo9" th:src="@{/} + ${'common/static/'+ editInfo.videoUrl}" style="position: absolute;height: 137px; margin: -106px auto auto -60px;"></video>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-inline">
+            <input type="text" name="description" th:value="${editInfo.description}" placeholder="请输入描述"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit="" lay-filter="kFormSubmit" id="kFormSubmit">
+        <input type="text" name="id" th:value="${editInfo.id}" autocomplete="off" class="layui-input">
+    </div>
+</div>
+
+<script th:replace="common/base::context"></script>
+<script th:replace="common/base::mainjs"></script>
+<script>
+    layui.use(['form', 'laydate', 'upload'], function () {
+        var $ = layui.$, form = layui.form, upload = layui.upload;
+
+        //执行实例
+        upload.render({
+            elem: '#kVideoUpload' //绑定元素
+            , url: api.comm.fileUpload //上传接口
+            , data: {type: 'video'}
+            , accept: 'video'
+            , done: function (r) {
+                //上传完毕回调
+                if (r.code === req.status.ok) {
+                    log(r.data);
+                    $("#videoUrl").val(r.data.path);
+                    $("#demo9").attr("src",BASE_WEB + "common/static/" + r.data.path);
+                    kvfKit.sucessMsg('上传成功');
+                } else {
+                    kvfKit.errorMsg('上传失败：' + r.msg);
+                }
+            }
+            , error: function (index, upload) {
+                //请求异常回调
+                kvfKit.errorMsg('上传失败');
+            }
+        });
+
+        //监听提交
+        form.on('submit(kFormSubmit)', function (data) {
+            var field = data.field; //获取提交的字段
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+
+            var url = field.id ? 'func/train/edit' : 'func/train/add';
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            $.ajax({
+                type: req.type.post,
+                url: BASE_WEB + url,
+                data: field,
+                async: false,
+                success: function (r) {
+                    if (r.code === req.status.ok) {
+                        // 重载表格
+                        parent.layui.table.reload('kContentTable');
+                        parent.layer.close(index); //再执行关闭
+                    } else {
+                        kvfKit.errorMsg(r.msg);
+                    }
+                }
+            });
+
+        });
+    })
+</script>
+</body>
+</html>

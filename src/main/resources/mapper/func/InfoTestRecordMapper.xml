@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kalvin.kvf.modules.func.mapper.InfoTestRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kalvin.kvf.modules.func.entity.InfoTestRecord">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="test_id" property="testId" />
+        <result column="score" property="score" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+       id, user_id, user_name, test_id, score, create_time
+    </sql>
+
+    <select id="selectInfoTestRecordList" resultType="com.kalvin.kvf.modules.func.entity.InfoTestRecord">
+        select <include refid="Base_Column_List" /> from func_info_test_record
+        <trim prefix="where" prefixOverrides="and">
+            <if test="infoTestRecord.userId != null and infoTestRecord.userId != ''">
+                and user_id like concat(#{infoTestRecord.userId}, "%")
+            </if>
+            <if test="infoTestRecord.userName != null and infoTestRecord.userName != ''">
+                and user_name like concat(#{infoTestRecord.userName}, "%")
+            </if>
+            <if test="infoTestRecord.testId != null">
+                and test_id = #{infoTestRecord.testId}
+            </if>
+            <if test="infoTestRecord.score != null">
+                and score = #{infoTestRecord.score}
+            </if>
+            <if test="infoTestRecord.createTime != null">
+                and create_time = #{infoTestRecord.createTime}
+            </if>
+        </trim>
+    </select>
+
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kalvin.kvf.modules.func.mapper.TrainMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kalvin.kvf.modules.func.entity.Train">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="video_url" property="videoUrl" />
+        <result column="description" property="description" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+       id, title, video_url, description, create_time
+    </sql>
+
+    <select id="selectTrainList" resultType="com.kalvin.kvf.modules.func.entity.Train">
+        select <include refid="Base_Column_List" /> from func_train
+        <trim prefix="where" prefixOverrides="and">
+            <if test="train.title != null and train.title != ''">
+                and title like concat(#{train.title}, "%")
+            </if>
+        </trim>
+    </select>
+    <select id="getTrainList" resultType="com.kalvin.kvf.modules.func.entity.Train">
+        select a.*,IFNULL(b.count,0) count from func_train a
+        LEFT JOIN
+        (
+        SELECT train_id, count(*) count from func_train_record
+        GROUP BY train_id
+        ) b ON a.id = b.train_id
+        where a.id
+        <if test="train.tabCur == 0">
+            not
+        </if>
+        in(
+            select train_id from func_train_record
+            WHERE user_id = #{train.userId}
+        )
+    </select>
+</mapper>

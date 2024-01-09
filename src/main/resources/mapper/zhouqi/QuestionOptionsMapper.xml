@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kalvin.kvf.modules.zhouqi.mapper.QuestionOptionsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kalvin.kvf.modules.zhouqi.entity.QuestionOptions">
+        <id column="id" property="id" />
+        <result column="guid" property="guid" />
+        <result column="parentid" property="parentid" />
+        <result column="option_name" property="optionName" />
+        <result column="option_content" property="optionContent" />
+        <result column="is_answer" property="isAnswer" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+       id, guid, parentid, option_name, option_content, is_answer
+    </sql>
+
+    <select id="selectQuestionOptionsList" resultType="com.kalvin.kvf.modules.zhouqi.entity.QuestionOptions">
+        select <include refid="Base_Column_List" /> from zhouqi_question_options
+        <trim prefix="where" prefixOverrides="and">
+            <if test="questionOptions.guid != null and questionOptions.guid != ''">
+                and guid like concat(#{questionOptions.guid}, "%")
+            </if>
+            <if test="questionOptions.parentid != null and questionOptions.parentid != ''">
+                and parentid like concat(#{questionOptions.parentid}, "%")
+            </if>
+            <if test="questionOptions.optionName != null and questionOptions.optionName != ''">
+                and option_name like concat(#{questionOptions.optionName}, "%")
+            </if>
+            <if test="questionOptions.optionContent != null and questionOptions.optionContent != ''">
+                and option_content like concat(#{questionOptions.optionContent}, "%")
+            </if>
+            <if test="questionOptions.isAnswer != null and questionOptions.isAnswer != ''">
+                and is_answer like concat(#{questionOptions.isAnswer}, "%")
+            </if>
+        </trim>
+    </select>
+
+</mapper>

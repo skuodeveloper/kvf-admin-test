@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kalvin.kvf.modules.func.mapper.UserTabMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kalvin.kvf.modules.func.entity.UserTab">
+        <id column="id" property="id" />
+        <result column="userid" property="userid" />
+        <result column="realname" property="realname" />
+        <result column="mobile" property="mobile" />
+        <result column="department" property="department" />
+        <result column="unionid" property="unionid" />
+        <result column="avatar" property="avatar" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+       id, userid, realname, mobile, department, unionid, avatar
+    </sql>
+
+    <select id="selectUserTabList" resultType="com.kalvin.kvf.modules.func.entity.UserTab">
+        select <include refid="Base_Column_List" /> from func_user_tab
+        <trim prefix="where" prefixOverrides="and">
+            <if test="userTab.realname != null and userTab.realname != ''">
+                and realname like concat(#{userTab.realname}, "%")
+            </if>
+            <if test="userTab.mobile != null and userTab.mobile != ''">
+                and mobile like concat(#{userTab.mobile}, "%")
+            </if>
+        </trim>
+    </select>
+
+</mapper>

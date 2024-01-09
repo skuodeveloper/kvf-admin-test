@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kalvin.kvf.modules.func.mapper.DepartMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kalvin.kvf.modules.func.entity.Depart">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="parentid" property="parentid" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+       id, name, parentid
+    </sql>
+
+    <select id="selectDepartList" resultType="com.kalvin.kvf.modules.func.entity.Depart">
+        select <include refid="Base_Column_List" /> from func_depart
+        <trim prefix="where" prefixOverrides="and">
+            <if test="depart.name != null and depart.name != ''">
+                and name like concat(#{depart.name}, "%")
+            </if>
+            <if test="depart.parentid != null">
+                and parentid = #{depart.parentid}
+            </if>
+        </trim>
+    </select>
+
+</mapper>

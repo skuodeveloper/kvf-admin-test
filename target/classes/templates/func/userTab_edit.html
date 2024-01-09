@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="common/base::pagetitle"></title>
+    <link th:replace="common/base::static"/>
+</head>
+<body>
+<div class="layui-form" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户id</label>
+        <div class="layui-input-inline">
+            <input type="text" name="userid" th:value="${editInfo.userid}" placeholder="请输入用户id" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="realname" th:value="${editInfo.realname}" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="mobile" th:value="${editInfo.mobile}" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="department" th:value="${editInfo.department}" placeholder="请输入部门id" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">union</label>
+        <div class="layui-input-inline">
+            <input type="text" name="unionid" th:value="${editInfo.unionid}" placeholder="请输入union" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">头像</label>
+        <div class="layui-input-inline">
+            <input type="text" name="avatar" th:value="${editInfo.avatar}" placeholder="请输入头像" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit="" lay-filter="kFormSubmit" id="kFormSubmit">
+        <input type="text" name="id" th:value="${editInfo.id}" autocomplete="off" class="layui-input">
+    </div>
+</div>
+
+<script th:replace="common/base::context"></script>
+<script th:replace="common/base::mainjs"></script>
+<script>
+    layui.use(['form', 'laydate'], function () {
+        var $ = layui.$, form = layui.form, laydate = layui.laydate;
+
+
+
+        //监听提交
+        form.on('submit(kFormSubmit)', function(data){
+            var field = data.field; //获取提交的字段
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+
+            var url = field.id ? 'func/userTab/edit' : 'func/userTab/add';
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            $.ajax({
+                type: req.type.post,
+                url: BASE_WEB + url,
+                data: field,
+                async: false,
+                success: function (r) {
+                    if (r.code === req.status.ok) {
+                        // 重载表格
+                        parent.layui.table.reload('kContentTable');
+                        parent.layer.close(index); //再执行关闭
+                    } else {
+                        kvfKit.errorMsg(r.msg);
+                    }
+                }
+            });
+
+        });
+    })
+</script>
+</body>
+</html>

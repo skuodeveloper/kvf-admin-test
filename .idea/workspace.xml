@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6dd24fe7-74d5-402e-9681-9a5625642707" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JRebelWorkspace">
+    <option name="jrebelEnabledAutocompile" value="true" />
+  </component>
+  <component name="ProjectId" id="1ne20LuVSMbJiTmEJ1sAjVrzA1d" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="MyBatisLogPluginindexNum" value="18880" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../work/zkglpt" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\钉钉\答题挑战\kvf-admin-ding\src\main\resources\templates\func" />
+      <recent name="D:\钉钉\答题挑战\kvf-admin-ding\src\main\java\com\kalvin\kvf\modules\func\service" />
+      <recent name="D:\钉钉\答题挑战\kvf-admin-ding\src\main\java\com\kalvin\kvf\modules\func\mapper" />
+      <recent name="D:\钉钉\答题挑战\kvf-admin-ding\src\main\java\com\kalvin\kvf\modules\func\entity" />
+      <recent name="D:\钉钉\答题挑战\kvf-admin-ding\src\main\java\com\kalvin\kvf\modules\func\controller" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\钉钉\答题挑战\kvf-admin-ding\src\main\resources\static\html" />
+      <recent name="D:\钉钉\答题挑战\kvf-admin-ding\src\main\resources\static\css" />
+      <recent name="D:\钉钉\答题挑战\kvf-admin-ding\src\main\resources\mapper\func" />
+      <recent name="D:\java\kvf-admin-healthy\src\main\resources\mapper\func" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.kalvin.kvf.modules.util" />
+      <recent name="com.kalvin.kvf.modules.schedule" />
+      <recent name="com.kalvin.kvf.modules.func.mapper" />
+      <recent name="com.kalvin.kvf.modules.func.entity" />
+      <recent name="com.kalvin.kvf.modules.func.schedule" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="KvfAdminApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="kvf" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.kalvin.kvf.KvfAdminApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6dd24fe7-74d5-402e-9681-9a5625642707" name="Default Changelist" comment="" />
+      <created>1611736012447</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1611736012447</updated>
+      <workItem from="1611736019628" duration="308000" />
+      <workItem from="1611736364664" duration="2604000" />
+      <workItem from="1611800650511" duration="298000" />
+      <workItem from="1611802426019" duration="12294000" />
+      <workItem from="1612169838693" duration="6642000" />
+      <workItem from="1612337383306" duration="6561000" />
+      <workItem from="1612399941468" duration="53000" />
+      <workItem from="1612485908688" duration="1925000" />
+      <workItem from="1612488263588" duration="2147000" />
+      <workItem from="1612490534533" duration="664000" />
+      <workItem from="1612491283856" duration="237000" />
+      <workItem from="1612492898882" duration="9992000" />
+      <workItem from="1612512285085" duration="7309000" />
+      <workItem from="1612852134152" duration="345000" />
+      <workItem from="1612853101962" duration="273000" />
+      <workItem from="1612921601296" duration="10729000" />
+      <workItem from="1613213389405" duration="84000" />
+      <workItem from="1615442235927" duration="80000" />
+      <workItem from="1615443821243" duration="16841000" />
+      <workItem from="1615787858778" duration="15006000" />
+      <workItem from="1616116089382" duration="6291000" />
+      <workItem from="1616377611187" duration="18000" />
+      <workItem from="1616400587695" duration="933000" />
+      <workItem from="1616478556442" duration="5724000" />
+      <workItem from="1616650192642" duration="10796000" />
+      <workItem from="1616743722190" duration="43000" />
+      <workItem from="1616744915243" duration="484000" />
+      <workItem from="1616745749256" duration="1536000" />
+      <workItem from="1616997051758" duration="108000" />
+      <workItem from="1616997507591" duration="577000" />
+      <workItem from="1616998526891" duration="607000" />
+      <workItem from="1617081759904" duration="11825000" />
+      <workItem from="1617152219257" duration="10429000" />
+      <workItem from="1617258375712" duration="182000" />
+      <workItem from="1617258670333" duration="8203000" />
+      <workItem from="1617329424789" duration="10506000" />
+      <workItem from="1617360912340" duration="490000" />
+      <workItem from="1617670143132" duration="9173000" />
+      <workItem from="1618198629418" duration="63000" />
+      <workItem from="1618283627436" duration="671000" />
+      <workItem from="1618383034645" duration="1096000" />
+      <workItem from="1618384417403" duration="57000" />
+      <workItem from="1618384562892" duration="787000" />
+      <workItem from="1618386386599" duration="383000" />
+      <workItem from="1618387700631" duration="523000" />
+      <workItem from="1619507373796" duration="1476000" />
+      <workItem from="1619510260096" duration="11227000" />
+      <workItem from="1619773220348" duration="34000" />
+      <workItem from="1622081006009" duration="13778000" />
+      <workItem from="1622515414970" duration="4687000" />
+      <workItem from="1622617050066" duration="2634000" />
+      <workItem from="1622725699822" duration="688000" />
+      <workItem from="1623057149804" duration="1833000" />
+      <workItem from="1624609796332" duration="174000" />
+      <workItem from="1624949501110" duration="171000" />
+      <workItem from="1625020603407" duration="390000" />
+      <workItem from="1641865342741" duration="2244000" />
+      <workItem from="1641881327420" duration="79591000" />
+      <workItem from="1643167460748" duration="3133000" />
+      <workItem from="1643271466375" duration="292000" />
+      <workItem from="1643443573469" duration="27000" />
+      <workItem from="1644394846592" duration="57000" />
+      <workItem from="1644404889454" duration="12368000" />
+      <workItem from="1645084417258" duration="85000" />
+      <workItem from="1646017670534" duration="5632000" />
+      <workItem from="1646192714608" duration="2149000" />
+      <workItem from="1647305612532" duration="640000" />
+      <workItem from="1647657131337" duration="11000" />
+      <workItem from="1647663401556" duration="6247000" />
+      <workItem from="1647745668320" duration="3776000" />
+      <workItem from="1647831869546" duration="1961000" />
+      <workItem from="1647839816830" duration="261000" />
+      <workItem from="1647924461710" duration="167000" />
+      <workItem from="1648104957659" duration="1802000" />
+      <workItem from="1648216693414" duration="17000" />
+      <workItem from="1648449576544" duration="1070000" />
+      <workItem from="1648515208715" duration="114000" />
+      <workItem from="1648774889418" duration="350000" />
+      <workItem from="1648864067097" duration="3620000" />
+      <workItem from="1649136377921" duration="1330000" />
+      <workItem from="1649381286756" duration="62000" />
+      <workItem from="1650265052722" duration="49000" />
+      <workItem from="1652250791629" duration="728000" />
+      <workItem from="1652252106264" duration="25000" />
+      <workItem from="1652255403230" duration="422000" />
+      <workItem from="1652338238103" duration="598000" />
+      <workItem from="1652339142199" duration="1322000" />
+      <workItem from="1652429040740" duration="13000" />
+      <workItem from="1654650626516" duration="66537000" />
+      <workItem from="1655342355514" duration="15405000" />
+      <workItem from="1655775755390" duration="845000" />
+      <workItem from="1655780691097" duration="1904000" />
+      <workItem from="1655864109208" duration="5229000" />
+      <workItem from="1655883459304" duration="567000" />
+      <workItem from="1655948817672" duration="4251000" />
+      <workItem from="1655971985795" duration="5283000" />
+      <workItem from="1657589080542" duration="1041000" />
+      <workItem from="1657763080780" duration="3302000" />
+      <workItem from="1657852750414" duration="3440000" />
+      <workItem from="1657874248279" duration="7536000" />
+      <workItem from="1658191594389" duration="7440000" />
+      <workItem from="1658305695464" duration="5245000" />
+      <workItem from="1659432385068" duration="682000" />
+      <workItem from="1659595779417" duration="42000" />
+      <workItem from="1660619345969" duration="10713000" />
+      <workItem from="1660716362290" duration="942000" />
+      <workItem from="1660724883088" duration="365000" />
+      <workItem from="1661126937439" duration="2626000" />
+      <workItem from="1661156600785" duration="690000" />
+      <workItem from="1661820556538" duration="364000" />
+      <workItem from="1661821125556" duration="1878000" />
+      <workItem from="1663314886097" duration="117000" />
+      <workItem from="1664154389174" duration="1490000" />
+      <workItem from="1664348726115" duration="1661000" />
+      <workItem from="1664412125105" duration="1572000" />
+      <workItem from="1664414788435" duration="4101000" />
+      <workItem from="1665194399143" duration="4604000" />
+      <workItem from="1665882616867" duration="129000" />
+      <workItem from="1665974032071" duration="962000" />
+      <workItem from="1672730579697" duration="445000" />
+      <workItem from="1673403496007" duration="2056000" />
+      <workItem from="1673510292820" duration="1842000" />
+      <workItem from="1673835588035" duration="58000" />
+      <workItem from="1673836331168" duration="738000" />
+      <workItem from="1675063092285" duration="4885000" />
+      <workItem from="1675407515692" duration="22000" />
+      <workItem from="1675407573488" duration="2000" />
+      <workItem from="1675407586472" duration="615000" />
+      <workItem from="1676356550867" duration="56000" />
+      <workItem from="1677228837929" duration="645000" />
+      <workItem from="1677465391731" duration="149000" />
+      <workItem from="1677651875278" duration="237000" />
+      <workItem from="1677655150405" duration="494000" />
+      <workItem from="1680748475502" duration="1237000" />
+      <workItem from="1683170216749" duration="4089000" />
+      <workItem from="1683864324145" duration="15492000" />
+      <workItem from="1684200502413" duration="7000" />
+      <workItem from="1704791430433" duration="518000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kalvin/kvf/modules/schedule/job/HelloJob.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kalvin/kvf/modules/schedule/utils/ScheduleKit.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kalvin/kvf/modules/schedule/utils/ScheduleKit.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kalvin/kvf/modules/schedule/controller/JobController.java</url>
+          <line>92</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kalvin/kvf/modules/schedule/utils/ScheduleKit.java</url>
+          <line>22</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kalvin/kvf/modules/func/controller/UserInfoController.java</url>
+          <line>213</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kalvin/kvf/modules/func/controller/UserInfoController.java</url>
+          <line>318</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kalvin/kvf/modules/func/controller/InfoTestController.java</url>
+          <line>104</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kalvin/kvf/modules/sys/controller/LoginController.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kalvin/kvf/modules/func/schedule/ScheduledConfig.java</url>
+          <line>136</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kalvin/kvf/modules/func/controller/ZzdController.java</url>
+          <line>64</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kalvin/kvf/modules/func/controller/ZzdController.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/kalvin/kvf/modules/func/controller/ZzdController.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="JSONObject.parseObject(rs).get(&quot;data&quot;).get(&quot;mobile&quot;)" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

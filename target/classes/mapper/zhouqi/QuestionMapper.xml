@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kalvin.kvf.modules.zhouqi.mapper.QuestionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kalvin.kvf.modules.zhouqi.entity.Question">
+        <id column="id" property="id" />
+        <result column="guid" property="guid" />
+        <result column="topic" property="topic" />
+        <result column="classify" property="classify" />
+        <result column="source" property="source" />
+        <result column="type" property="type" />
+        <result column="analysis" property="analysis" />
+        <result column="valid_date" property="validDate" />
+        <result column="remark" property="remark" />
+        <result column="sn" property="sn" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+       id, guid, topic, classify, source, type, analysis, valid_date, remark, sn
+    </sql>
+
+    <select id="selectQuestionList" resultType="com.kalvin.kvf.modules.zhouqi.entity.Question">
+        select <include refid="Base_Column_List" /> from zhouqi_question
+        <trim prefix="where" prefixOverrides="and">
+            <if test="question.guid != null and question.guid != ''">
+                and guid like concat(#{question.guid}, "%")
+            </if>
+            <if test="question.topic != null and question.topic != ''">
+                and topic like concat(#{question.topic}, "%")
+            </if>
+            <if test="question.classify != null and question.classify != ''">
+                and classify like concat(#{question.classify}, "%")
+            </if>
+            <if test="question.source != null and question.source != ''">
+                and source like concat(#{question.source}, "%")
+            </if>
+            <if test="question.type != null and question.type != ''">
+                and type like concat(#{question.type}, "%")
+            </if>
+            <if test="question.analysis != null">
+                and analysis = #{question.analysis}
+            </if>
+            <if test="question.validDate != null and question.validDate != ''">
+                and valid_date like concat(#{question.validDate}, "%")
+            </if>
+            <if test="question.remark != null and question.remark != ''">
+                and remark like concat(#{question.remark}, "%")
+            </if>
+            <if test="question.sn != null and question.sn != ''">
+                and sn like concat(#{question.sn}, "%")
+            </if>
+        </trim>
+    </select>
+
+</mapper>

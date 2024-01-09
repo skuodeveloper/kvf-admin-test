@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kalvin.kvf.modules.func.mapper.UserInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kalvin.kvf.modules.func.entity.UserInfo">
+        <id column="id" property="id" />
+        <result column="userid" property="userid" />
+        <result column="realname" property="realname" />
+        <result column="mobile" property="mobile" />
+        <result column="department" property="department" />
+        <result column="unionid" property="unionid" />
+        <result column="openid" property="openid" />
+        <result column="avatar" property="avatar" />
+        <result column="max_level" property="maxLevel" />
+        <result column="today_cnt" property="todayCnt" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="res_cnt" property="resCnt" />
+        <result column="res_score" property="resScore" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+       id, userid, realname, mobile, department, unionid, openid, avatar, max_level, create_time, update_time,res_cnt, res_score
+    </sql>
+
+    <select id="selectUserInfoList" resultType="com.kalvin.kvf.modules.func.entity.UserInfo">
+        select <include refid="Base_Column_List" /> from func_user_info
+        <trim prefix="where" prefixOverrides="and">
+            <if test="userInfo.realname != null and userInfo.realname != ''">
+                and realname like concat(#{userInfo.realname}, "%")
+            </if>
+            <if test="userInfo.mobile != null and userInfo.mobile != ''">
+                and mobile like concat(#{userInfo.mobile}, "%")
+            </if>
+            <if test="userInfo.openid != null and userInfo.openid != ''">
+                and openid like concat(#{userInfo.openid}, "%")
+            </if>
+            <if test="userInfo.userid != null and userInfo.userid != ''">
+                and userid like concat(#{userInfo.userid}, "%")
+            </if>
+        </trim>
+    </select>
+
+    <select id="getRank" resultType="com.kalvin.kvf.modules.func.entity.UserInfo">
+        select <include refid="Base_Column_List" /> from func_user_info
+        ORDER BY res_score desc , res_cnt asc, realname
+    </select>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kalvin.kvf.modules.func.mapper.TalkShowMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kalvin.kvf.modules.func.entity.TalkShow">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="age" property="age" />
+        <result column="sex" property="sex" />
+        <result column="tel" property="tel" />
+        <result column="ifout" property="ifout" />
+        <result column="place" property="place" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+       id, name, age, sex, tel, ifout, place, create_time
+    </sql>
+
+    <select id="selectTalkShowList" resultType="com.kalvin.kvf.modules.func.entity.TalkShow">
+        select <include refid="Base_Column_List" /> from func_talk_show
+        <trim prefix="where" prefixOverrides="and">
+            <if test="talkShow.name != null and talkShow.name != ''">
+                and name like concat(#{talkShow.name}, "%")
+            </if>
+            <if test="talkShow.age != null">
+                and age = #{talkShow.age}
+            </if>
+            <if test="talkShow.sex != null and talkShow.sex != ''">
+                and sex like concat(#{talkShow.sex}, "%")
+            </if>
+            <if test="talkShow.tel != null and talkShow.tel != ''">
+                and tel like concat(#{talkShow.tel}, "%")
+            </if>
+            <if test="talkShow.ifout != null">
+                and ifout = #{talkShow.ifout}
+            </if>
+            <if test="talkShow.place != null and talkShow.place != ''">
+                and place like concat(#{talkShow.place}, "%")
+            </if>
+            <if test="talkShow.createTime != null">
+                and create_time = #{talkShow.createTime}
+            </if>
+        </trim>
+    </select>
+
+</mapper>

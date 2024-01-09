@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="common/base::pagetitle"></title>
+    <link th:replace="common/base::static"/>
+</head>
+<body>
+<div class="layui-form" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" th:value="${editInfo.title}" placeholder="请输入标题" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">题目列表</label>
+        <div class="layui-input-inline">
+            <input type="text" name="ids" th:value="${editInfo.ids}" placeholder="请输入题目列表" autocomplete="off" class="layui-input" style="display: inline;width: 84%;">
+            <button id="generate" type="button" class="layui-btn layui-btn-sm" ><i class=""></i>生成</button>
+        </div>
+    </div>
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label">创建时间</label>-->
+<!--        <div class="layui-input-inline">-->
+<!--            <input type="text" name="createTime" id="createTime" th:value="${#strings.replace(editInfo.createTime,'T',' ')}" placeholder="请输入创建时间" autocomplete="off" class="layui-input">-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">开始时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="startTime" id="startTime" th:value="${#dates.format(editInfo.startTime, 'yyyy-MM-dd HH:mm:ss')}" placeholder="请输入开始时间" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">结束时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="endTime" id="endTime" th:value="${#dates.format(editInfo.endTime, 'yyyy-MM-dd HH:mm:ss')}" placeholder="请输入结束时间" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+        <input type="button" lay-submit="" lay-filter="kFormSubmit" id="kFormSubmit">
+        <input type="text" name="id" th:value="${editInfo.id}" autocomplete="off" class="layui-input">
+    </div>
+</div>
+
+<script th:replace="common/base::context"></script>
+<script th:replace="common/base::mainjs"></script>
+<script>
+    layui.use(['form', 'laydate'], function () {
+        var $ = layui.$, form = layui.form, laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#startTime' // 指定元素
+            ,type: 'datetime'
+        });
+        laydate.render({
+            elem: '#endTime' // 指定元素
+            ,type: 'datetime'
+        });
+
+        //监听提交
+        form.on('submit(kFormSubmit)', function(data){
+            var field = data.field; //获取提交的字段
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+
+            var url = field.id ? 'func/infoTest/edit' : 'func/infoTest/add';
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            $.ajax({
+                type: req.type.post,
+                url: BASE_WEB + url,
+                data: field,
+                async: false,
+                success: function (r) {
+                    if (r.code === req.status.ok) {
+                        // 重载表格
+                        parent.layui.table.reload('kContentTable');
+                        parent.layer.close(index); //再执行关闭
+                    } else {
+                        kvfKit.errorMsg(r.msg);
+                    }
+                }
+            });
+        });
+
+        $('#generate').click(function (e) {
+            log("1111");
+            $.ajax({
+                type: req.type.get,
+                url: BASE_WEB + 'func/infoTest/generate',
+                async: false,
+                success: function (r) {
+                    if (r.code === req.status.ok) {
+                        $('input[name=ids]').val(r.data);
+                    } else {
+                        kvfKit.errorMsg(r.msg);
+                    }
+                }
+            });
+        })
+    })
+</script>
+</body>
+</html>
